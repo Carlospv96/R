@@ -1,0 +1,359 @@
+%% LyX 2.3.0 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[10pt,spanish,refpage,intoc,bibliography=totoc,index=totoc,BCOR7.5mm,captions=tableheading]{report}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=1cm,lmargin=1cm,rmargin=1cm}
+\pagestyle{empty}
+\setcounter{secnumdepth}{3}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\usepackage{babel}
+\addto\shorthandsspanish{\spanishdeactivate{~<>.}}
+
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=true]
+ {hyperref}
+\hypersetup{
+ linkcolor=black, citecolor=black, urlcolor=blue, filecolor=blue, pdfpagelayout=OneColumn, pdfnewwindow=true, pdfstartview=XYZ, plainpages=false}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\@ifundefined{date}{}{\date{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\allowdisplaybreaks[1]
+
+%% Mis definiciones
+\def\NN{{\mathop{{\rm I}\kern-.2em{\rm N}}\nolimits}}
+\def\RR{{\mathop{{\rm I}\kern-.2em{\rm R}}\nolimits}}
+\def\CC{{\rm C\kern-.18cm\vrule width.6pt height 6pt depth-.2pt \kern.18cm}}
+
+%  Cambiar nombre de demostración
+\addto\captionsspanish{%
+\def\proofname{Solución:} 
+}
+
+% Para matrices con etiquetas en renglones y columnas
+\usepackage{etoolbox}
+\let\bbordermatrix\bordermatrix
+\patchcmd{\bbordermatrix}{8.75}{4.75}{}{}
+\patchcmd{\bbordermatrix}{\left(}{\left[}{}{}
+\patchcmd{\bbordermatrix}{\right)}{\right]}{}{}
+
+\makeatother
+
+\begin{document}
+\begin{center}
+\begin{tabular}{cr}
+\multirow{3}{*}{{\Large{}\includegraphics[width=0.08\textwidth]{UASLP-logo} }} & {\Large{}\hspace*{4cm}Universidad Autónoma de San Luis Potosí}\tabularnewline
+ & \tabularnewline
+ & {\Large{}Econometría}\tabularnewline
+ & \medskip{}
+\tabularnewline
+\end{tabular}
+\par\end{center}
+
+\begin{center}
+{\large{}Tarea 3\hfill{} 11 de enero de 2022}{\large\par}
+{\large{}Carlos Enrique Ponce Villagran}
+\par\end{center}
+
+\rule[0.3ex]{1\columnwidth}{1pt}
+
+En el archivo \texttt{Hunger GDP Extreme Poverty.csv} se encuentra por país y a finales de 2018, el índice Global de Hambre (GHI, del 0 (no existe hambre) al 100), el porcentaje de la población viviendo en hogares bajo la línea de pobreza extrema (PBL) y el Producto Interno Bruto a valores de Paridad de Poder Adquisitivo (GDP, en cientos de dólares estadounidenses del 2017). Va a utilizarse un modelo de regresión lineal múltiple para explicar cómo influye el porcentaje de la población viviendo en hogares bajo la línea de pobreza extrema y el Producto Interno Bruto a valores de Paridad de Poder Adquisitivo en el índice Global de Hambre.
+
+\begin{enumerate}
+
+\item[1.] Utilizando \texttt{Stata:}
+
+\begin{enumerate}
+
+\item[a)] Verifica si los datos usados contienen multicolinealidad según el criterio de la inflación de la varianza.
+
+\begin{proof}
+
+Utilizando el comando \texttt{vif} después de ejecutar la regresión \texttt{regress ghi bpl gdp} en \texttt{Stata} obtuvimos los siguientes resultados
+
+\begin{center}
+\begin{tabular}{c|cc}
+Variable & VIF & 1/VIF \\ 
+\hline 
+bpl & 1.67 & 0.598685 \\ 
+gdp & 1.67 & 0.598685 \\ 
+\hline 
+Mean VIF & 1.67 &  \\ 
+\end{tabular} 
+\end{center}
+
+por lo que podemos concluir que este modelo no presenta el problema de multicolinealidad ya que la inflación de la varianza no es mayor a 10.
+
+\end{proof}
+
+\item[b)] Realiza una gráfica de los valores esperados estimados contra los residuales y concluye si gráficamente existe o no heteroscedasticidad.
+
+\begin{proof}
+
+Generamos los valores de los residuales con \texttt{predict rrl, residuals} y los valores estimados con \texttt{predict yh} y obtenemos la gráfica con \texttt{scatter rrl yh}
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7cm]{b_ResVValE_STATA.png}
+\caption{Gráfica valores estimados contra sus residuales}
+\end{figure}
+
+como podemos observar hay indicios de heteroscedasticidad ya que los datos están muy dispersos, lo valores esperados crecen más que el de los residuales.
+
+\end{proof}
+
+\item[c)] Indica si existe o no heteroscedasticidad respecto a la variable BPL usando la prueba de Goldfeld-Quandt, a un nivel de significancia de  $0.05$.
+
+\begin{proof}
+
+Primero ordenamos los datos BPL con \texttt{sort bpl ghi gdp} como tenemos más de $60$ datos entonces no consideramos los 10 observaciones de en medio, y realizamos la regresiones a los grupos \texttt{regress ghi bpl gdp in 1/41} y \texttt{regress ghi bpl gdp in 52/93} y guardamos los escalares \texttt{scalar VG1=e(rmse)\^2} y \texttt{scalar VG2=e(rmse)\^2} al ejecutar cada regresión, para así obtener el estadísticos \texttt{EstF=VG2/VG1=2.0073499} como es una prueba con nivel de significancia del $0.05$ entonces calculamos los umbrales \texttt{scalar UmbralD=invFtail(40,40,0.025)} y \texttt{scalar UmbralL=invFtail(40,40,0.975)} y al usar \texttt{scalar list} obtuvimos
+
+\begin{center}
+\begin{tabular}{ccc}
+UmbralD & = & 1.8751974 \\ 
+UmbralL & = &  0.5332772 \\ 
+EstF & = & 2.0073499 \\ 
+VG2 & = & 45.487781 \\ 
+VG1 & = & 22.660613 \\ 
+\end{tabular} 
+\end{center}
+
+por lo tanto el estadístico F esta en el área de rechazo por lo que existe  heteroscedasticidad.
+
+\end{proof}
+
+\item[d)] Indica si existe o no heteroscedasticidad usando la prueba de Breusch-Pagan-Godfrey, a un nivel de significancia de 0.04.
+
+\begin{proof}
+
+Volvemos a cargar los datos para hacer la regresión sin orden, entonces ejecutando \texttt{regress ghi bpl gdp} y después usando \texttt{estat hettest bpl gdp} obtuvimos que el $p$-valor es igual a $p= 0.1439$ y por lo tanto como $p>0.04$ se acepta la hipótesis nula y se concluye que no existe heteroscedasticidad.
+
+\end{proof}
+
+\item[e)] Indica si existe o no heteroscedasticidad usando la prueba de White, a un nivel de significancia de 0.04.
+
+\begin{proof}
+
+Para la prueba de White ejecutamos el siguiente comando \texttt{estat imtest, white} y obtuvimos que el $p$-valor es igual a $p= 0.1143$ y por lo tanto como $p>0.04$ se acepta la hipótesis nula y se concluye que no existe heteroscedasticidad.
+
+\end{proof}
+
+\item[f)] Asume que existe heteroscedasticidad. Encuentra el valor esperando del Índice Global de Hambre para un país donde el $3.85\%$ de la población vive por debajo de la línea de la pobreza con un GDP-PPA de 13.15, ya habiendo removido la heteroscedasticidad y asumiendo que su forma funcional es $\sigma^2_i=3BPL_i+GDP_i$.
+
+\begin{proof}
+
+Generamos la forma funcional de la varianza con el comando \texttt{generate FFV=3*bpl+gdp} y los pesos con \texttt{generate W=1/FFV} entonces ejecutamos la regresión \texttt{regress ghi bpl gdp [aweight=W]} y finalmente para obtener el valor esperando del Índice Global de Hambre para un país donde el $3.85\%$ de la población vive por debajo de la línea de la pobreza con un GDP-PPA de $13.15$ utilizamos \texttt{ mfx, at(3.85,13.15)} donde obtenemos
+
+\[y=13.052484\]
+
+\end{proof}
+
+\item[g)]  Asume que existe heteroscedasticidad. Muestra el estimador $S_0$ de White usado para estimar la matriz varianza-covarianza.
+
+\begin{proof}
+
+\textbf{NOTA:} Este inciso esta al final del Archivo log de \texttt{STATA}.\\
+
+Calculamos los residuales de la regresión con \texttt{predict u, residuals} y generamos los datos \texttt{generate r=u\^2} y creamos el vector \texttt{mkmat r} y finalmente la matriz diagonal con los residuales al cuadrado \texttt{matrix D=diag(r)} y ahora, para la matriz $X$ basta con generar una columna de $1$ y esto lo hacemos con \texttt{generate o=1} para así obtener $X$ con \texttt{mkmat o bpl gdp, matrix(X)} y finalmente obtenemos la matriz $S_0$ con \texttt{matrix S=1/93*X'*D*X} con lo que obtenemos
+
+\[S_0=\begin{pmatrix}
+33.645456 & &\\
+747.02864 & 34720.768 &\\
+246.18768 & 2264.7268 & 3416.3611
+
+\end{pmatrix}
+\]
+
+\end{proof}
+
+\item[h)]  Indica si existe o no autocorrelación usando la prueba de las rachas, a un nivel de significancia de 0.035.
+
+\begin{proof}
+
+Ordenamos los datos BPL con \texttt{sort bpl ghi gdp} y realizamos la regresión con \texttt{regress ghi bpl gdp} y procedemos a obtener los residuales con \texttt{predict u, residuals}y realizamos la prueba de rachas con \texttt{runtest u, threshold(0)} con lo que obtuvimos un $p$-valor igual a $p=0.54$, por lo tanto a un significancia de $0.035$ tenemos que $p>0.035$ por lo tanto se acepta la hipótesis nula y existe autocorrelación en la variable BPL.
+
+\end{proof}
+
+\item[i)] Indica si existe o no autocorrelación usando la prueba de Durbin - Watson, a un nivel de significancia de 0.01.
+
+\begin{proof}
+
+Siguiendo con el mismo modelo del inciso anterior basta con generar los datos \texttt{generate num=\_n}, definiendo \texttt{tsset num} para finalmente ejecutar la prueba de Durbin - Watson con \texttt{estat dwatson} tenemos que $d=1.975953$ entonces de la tabla de Durbin -Watson tenemos que $k=2$ y $n=93$ por lo tanto
+
+\[dL= 1.489 \text{ y }dU= 1.573\quad\Rightarrow\quad 4-dL= 2.511\text{ y }4-dU=2.427\]
+
+por lo tanto como $dU<d<4-dU$ tenemos que no hay autocorrelación.
+
+\end{proof}
+
+\item[j)] Asume que existe autocorrelación. Encuentra el valor esperado del Índice Global de Hambre para un país donde el $4.45\%$ de la población vive por debajo de la línea de la pobreza con un GDP-PPA de 12.54, ya habiendo removido la autocorrelación.
+
+\begin{proof}
+
+Volveremos a cargar los datos originales y ejecutaremos la regresión con los datos originales \texttt{regress ghi bpl gdp} y ejecutaremos la prueba de D-W asumiendo que existe autocorrelación, con lo que obtuvimos $d=2.263144$ y entonces generamos los siguientes datos \texttt{generate ghiauto=ghi-(1- 2.263144/2)*ghi\_01}, \texttt{generate bplauto=bpl-(1- 2.263144/2)*bpl\_01} y \texttt{generate gdpauto=gdp-(1- 2.263144/2)*gdp\_01}, finalmente ejecutamos la regresión \texttt{regress ghiauto bplauto gdpauto in 2/93} y evaluamos con \texttt{ mfx, at(4.45,12.54)} con lo que obtuvimos
+
+\[y=17.219622\]
+
+\end{proof}
+
+\end{enumerate}
+
+\newpage
+
+\item[2.] Repetir el inciso 1) utilizando \texttt{R}.
+
+\begin{enumerate}
+
+\item[a)] Verifica si los datos usados contienen multicolinealidad según el criterio de la inflación de la varianza.
+
+\begin{proof}
+
+Ejecutamos la regresión lineal con el comando \texttt{rl<-lm(GHI~BPL+GDP,data = datos)} y \texttt{vif(rl)} en \texttt{R} con lo que obtuvimos
+
+\begin{center}
+\begin{tabular}{cc}
+BPL & GDP \\ 
+1.670327 & 1.670327 \\ 
+\end{tabular} 
+\end{center}
+
+por lo que podemos concluir que este modelo no presenta el problema de multicolinealidad ya que la inflación de la varianza no es mayor a 10.
+
+\end{proof}
+
+\item[b)] Realiza una gráfica de los valores esperados estimados contra los residuales y concluye si gráficamente existe o no heteroscedasticidad.
+
+\begin{proof}
+
+Para obtener la gráfica de los valores esperados contra los residuales simplemente ejecutamos el comando
+
+\begin{verbatim}
+plot(predict(rl),rl$residuals,ylab = "Residuales", xlab = "Valores estimados",
+     title(main = "Residuales vs. Valores estimados"),pch=19,col="darkorchid1")
+\end{verbatim}
+
+donde obtuvimos la siguiente gráfica:
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7cm]{b_ResVValE_R.png}
+\caption{Gráfica valores estimados contra sus residuales}
+\end{figure}
+
+como podemos observar hay indicios de heteroscedasticidad ya que los datos están muy dispersos, lo valores esperados crecen más que el de los residuales.
+
+\end{proof}
+
+\item[c)] Indica si existe o no heteroscedasticidad respecto a la variable BPL usando la prueba de Goldfeld-Quandt, a un nivel de significancia de  $0.05$.
+
+\begin{proof}
+
+Primero ordenamos los datos con el comando \texttt{S=datos[order(datos\$BPL,datos\$GHI,datos\$GDP),]}, ejecutamos la siguiente regresión \texttt{MR<-lm(GHI~BPL+GDP,S)} y ejecutamos \texttt{gqtest(MR,fraction = 10)} donde obtenemos un $p$-valor igual a $p=0.01691$ como $0.05>p$ la hipótesis nula se rechaza por lo que existe  heteroscedasticidad.
+
+\end{proof}
+
+\item[d)] Indica si existe o no heteroscedasticidad usando la prueba de Breusch-Pagan-Godfrey, a un nivel de significancia de 0.04.
+
+\begin{proof}
+
+Para la prueba de BPG basta con ejecutar el comando $bptest(rl,studentize = FALSE)$ con lo que obtuvimos un $p$-valor igual a $p=0.1439$ y por lo tanto como $p>0.04$ se acepta la hipótesis nula y se concluye que no existe heteroscedasticidad.
+
+\end{proof}
+
+\item[e)] Indica si existe o no heteroscedasticidad usando la prueba de White, a un nivel de significancia de 0.04.
+
+\begin{proof}
+
+Para la prueba de White ejecutamos el siguiente comando \texttt{white\_lm(rl,interactions=TRUE)} y obtuvimos que el $p$-valor es igual a $p= 0.114$ y por lo tanto como $p>0.04$ se acepta la hipótesis nula y se concluye que no existe heteroscedasticidad.
+
+\end{proof}
+
+\item[f)] Asume que existe heteroscedasticidad. Encuentra el valor esperando del Índice Global de Hambre para un país donde el $3.85\%$ de la población vive por debajo de la línea de la pobreza con un GDP-PPA de 13.15, ya habiendo removido la heteroscedasticidad y asumiendo que su forma funcional es $\sigma^2_i=3BPL_i+GDP_i$.
+
+\begin{proof}
+
+Escribimos la forma funcional de la varianza con \texttt{FFV=3*datos\$BPL+datos\$GDP} y los pesos \texttt{W=1/FFV} para ejecutar la regresión con los pesos \texttt{rl1<-lm(GHI~BPL+GDP,weights = W,data = datos)} y entonces el valor esperando del Índice Global de Hambre para un país donde el $3.85\%$ de la población vive por debajo de la línea de la pobreza con un GDP-PPA de 13.15 lo encontramos con \texttt{predict(rl1, newdata=data.frame(BPL=3.85,GDP=13.15))} donde obtenemos
+
+\[y=13.05248\]
+
+\end{proof}
+
+\item[g)]  Asume que existe heteroscedasticidad. Muestra el estimador $S_0$ de White usado para estimar la matriz varianza-covarianza.
+
+\begin{proof}
+
+El estimador $S_0$ lo obtenemos con el siguiente comando \texttt{vcovHC(rl,type='HC')} que es parte de la libreria \texttt{sandwich} y por lo tanto obtenemos:
+
+\[S_0=\begin{pmatrix}
+3.19780196 & -0.064995054 & -0.175688998\\
+-0.06499505 & 0.002081450 & 0.003286048\\
+-0.17568900 & 0.003286048 & 0.011576947
+\end{pmatrix}
+\]
+
+\end{proof}
+
+\item[h)]  Indica si existe o no autocorrelación usando la prueba de las rachas, a un nivel de significancia de 0.035.
+
+\begin{proof}
+
+Volveremos a usar el modelo MR que usamos anteriormente, el cual era una regresión lineal pero consideraba los valores BPL ordenados entonces ejecutando el comando \texttt{runs.test(MR\$residuals,threshold = 0)} obtuvimos un $p$-valor igual a $p=0.5366$  por lo tanto a un nivel de significancia de $0.035$ tenemos que $p>0.035$, y se acepta la hipótesis nula y existe autocorrelación en la variable BPL.
+
+\end{proof}
+
+\item[i)] Indica si existe o no autocorrelación usando la prueba de Durbin - Watson, a un nivel de significancia de 0.01.
+
+\begin{proof}
+
+Siguiendo con el modelo \texttt{MR} que es un modelo de regresión con los valores BPL ordenados ejecutamos la prueba de D-W con \texttt{dwtest(MR)} con lo que obtenemos $DW = 1.976$ por lo tanto como $k=2$ y $n=93$
+
+\[dL= 1.489 \text{ y }dU= 1.573\quad\Rightarrow\quad 4-dL= 2.511\text{ y }4-dU=2.427\]
+
+por lo tanto como $dU<DW<4-dU$ tenemos que no hay autocorrelación.
+
+\end{proof}
+
+\item[j)] Asume que existe autocorrelación. Encuentra el valor esperado del Índice Global de Hambre para un país donde el $4.45\%$ de la población vive por debajo de la línea de la pobreza con un GDP-PPA de 12.54, ya habiendo removido la autocorrelación.
+
+\begin{proof}
+
+Asumiendo que hay autocorrelación en los datos originales, ejecutamos \texttt{dwtest(rl)} para obtener que $d=2.2631$ y creamos los datos $R$ de la siguiente manera
+
+\begin{verbatim}
+R<-data.frame()
+
+for (i in 1:93) {
+  for (j in 1:3) {
+    R[i,j]<-datos[i+1,j+1]-(1-2.2631/2)*datos[i,j+1]
+  }
+}
+\end{verbatim}
+
+para ejecutar la regresión sin autocorrelación \texttt{MRA<-lm(V1~V2+V3,R)} y finalmente el valor esperado del Índice Global de Hambre para un país donde el $4.45\%$ de la población vive por debajo de la línea de la pobreza con un GDP-PPA de 12.54 lo obtenemos con \texttt{predict(MRA, newdata=data.frame(V2=4.45,V3=12.54))} lo cual arroja
+
+\[y=17.21917 \]
+
+\end{proof}
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

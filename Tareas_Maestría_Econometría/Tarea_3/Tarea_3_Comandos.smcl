@@ -1,0 +1,760 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 5 Jan 2022, 13:05:05
+
+{com}. import delimited "D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Hunger GDP Extreme Poverty.csv"
+{res}{text}(4 vars, 93 obs)
+
+{com}. *Importamos los datos y Ejuctamos el comando de la regresion
+
+. regress ghi bpl gdp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        93
+{txt}{hline 13}{c +}{hline 34}   F(2, 90)        = {res}   104.10
+{txt}       Model {c |} {res} 7238.18578         2  3619.09289   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 3129.02742        90  34.7669714   {txt}R-squared       ={res}    0.6982
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6915
+{txt}       Total {c |} {res} 10367.2132        92    112.6871   {txt}Root MSE        =   {res} 5.8964
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ghi{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}bpl {c |}{col 14}{res}{space 2}  .256703{col 26}{space 2} .0388077{col 37}{space 1}    6.61{col 46}{space 3}0.000{col 54}{space 4} .1796047{col 67}{space 3} .3338013
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.6159303{col 26}{space 2} .1074625{col 37}{space 1}   -5.73{col 46}{space 3}0.000{col 54}{space 4}-.8294232{col 67}{space 3}-.4024373
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 21.08327{col 26}{space 2} 1.641817{col 37}{space 1}   12.84{col 46}{space 3}0.000{col 54}{space 4} 17.82151{col 67}{space 3} 24.34503
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *a) usamos vif para verificar si hay multicolinealidad
+
+. vif
+
+{txt}    Variable {c |}       VIF       1/VIF  
+{hline 13}{c +}{hline 22}
+{space 9}bpl {c |} {res}     1.67    0.598685
+{txt}{space 9}gdp {c |} {res}     1.67    0.598685
+{txt}{hline 13}{c +}{hline 22}
+    Mean VIF {c |} {res}     1.67
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 5 Jan 2022, 13:13:56
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 5 Jan 2022, 19:53:09
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 5 Jan 2022, 19:53:14
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res} 5 Jan 2022, 19:53:52
+
+{com}. *calcularemos los valores esperados y los residuales de la regresion
+
+. *para los residuales
+
+. predict rrl, res
+
+. *para los valores esperados
+
+. predict yh
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. *b) la grafica de los residuales vs los valores esperados los obtenemos con el comando
+
+. scatter rrl yh
+{res}
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 5 Jan 2022, 19:55:41
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res} 5 Jan 2022, 21:13:12
+
+{com}. *c) primero ordenaremos los datos correspondientes a bpl
+
+. sort bpl ghi gdp
+
+. *realizamos regresion de los datos 1 al 41 y 52 al 93
+
+. regress ghi bpl gdp in 1/41
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        41
+{txt}{hline 13}{c +}{hline 34}   F(2, 38)        = {res}     7.75
+{txt}       Model {c |} {res} 351.031757         2  175.515879   {txt}Prob > F        ={res}    0.0015
+{txt}    Residual {c |} {res} 861.103299        38  22.6606131   {txt}R-squared       ={res}    0.2896
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2522
+{txt}       Total {c |} {res} 1212.13506        40  30.3033764   {txt}Root MSE        =   {res} 4.7603
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ghi{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}bpl {c |}{col 14}{res}{space 2} .9141407{col 26}{space 2} .5764405{col 37}{space 1}    1.59{col 46}{space 3}0.121{col 54}{space 4} -.252802{col 67}{space 3} 2.081083
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.3287244{col 26}{space 2} .1156661{col 37}{space 1}   -2.84{col 46}{space 3}0.007{col 54}{space 4}-.5628781{col 67}{space 3}-.0945707
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 14.74605{col 26}{space 2}  2.27567{col 37}{space 1}    6.48{col 46}{space 3}0.000{col 54}{space 4}  10.1392{col 67}{space 3}  19.3529
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. scalar VG1=e(rmse)^2
+
+. regress ghi bpl gdp in 52/93
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        42
+{txt}{hline 13}{c +}{hline 34}   F(2, 39)        = {res}    11.93
+{txt}       Model {c |} {res} 1085.64808         2  542.824042   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 1774.02344        39  45.4877806   {txt}R-squared       ={res}    0.3796
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.3478
+{txt}       Total {c |} {res} 2859.67153        41   69.748086   {txt}Root MSE        =   {res} 6.7445
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ghi{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}bpl {c |}{col 14}{res}{space 2}  .159833{col 26}{space 2} .0679766{col 37}{space 1}    2.35{col 46}{space 3}0.024{col 54}{space 4} .0223372{col 67}{space 3} .2973287
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.7719572{col 26}{space 2} .3050931{col 37}{space 1}   -2.53{col 46}{space 3}0.016{col 54}{space 4}-1.389066{col 67}{space 3}-.1548481
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 25.83215{col 26}{space 2} 3.450968{col 37}{space 1}    7.49{col 46}{space 3}0.000{col 54}{space 4} 18.85191{col 67}{space 3} 32.81239
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. scalar VG2=e(rmse)^2
+
+. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 5 Jan 2022, 23:26:00
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 6 Jan 2022, 18:42:46
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 6 Jan 2022, 18:43:17
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res} 6 Jan 2022, 18:43:35
+
+{com}. scalar EstF=VG2/VG1
+
+. scalar list
+{txt}      EstF = {res} 2.0073499
+{txt}       VG2 = {res} 45.487781
+{txt}       VG1 = {res} 22.660613
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 6 Jan 2022, 18:44:31
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res} 6 Jan 2022, 19:19:03
+
+{com}. *calculamos los umbrales
+
+. scalar UmbralD=invFtail(40,40,0.02)
+
+. scalar UmbralL=invFtail(40,40,0.98)
+
+. scalar list
+{txt}   UmbralD = {res} 1.9334697
+{txt}   UmbralL = {res} .51720489
+{txt}    Umbral = {res} .51720489
+{txt}      EstF = {res} 2.0073499
+{txt}       VG2 = {res} 45.487781
+{txt}       VG1 = {res} 22.660613
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 6 Jan 2022, 19:20:33
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res} 6 Jan 2022, 19:23:52
+
+{com}. *correcion para la prueba de Goldfeld-Quandt es a un nivel de significancia de 0.05 entonces
+
+. scalar UmbralL=invFtail(40,40,0.975)
+
+. scalar UmbralD=invFtail(40,40,0.025)
+
+. scalar list
+{txt}   UmbralD = {res} 1.8751974
+{txt}   UmbralL = {res}  .5332772
+{txt}    Umbral = {res} .51720489
+{txt}      EstF = {res} 2.0073499
+{txt}       VG2 = {res} 45.487781
+{txt}       VG1 = {res} 22.660613
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 6 Jan 2022, 19:25:21
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res} 6 Jan 2022, 20:16:09
+
+{com}. d) Volvemos a cargar los datos para realizar la prueba de Breusch - Pagan - Godfrey
+{err}invalid something: unmatched close parenthesis or bracket
+
+{txt}{search r(198), local:r(198);}
+
+{com}. import delimited "D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Hunger GDP Extreme Poverty.csv", clear 
+{res}{text}(4 vars, 93 obs)
+
+{com}. regress ghi bpl gdp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        93
+{txt}{hline 13}{c +}{hline 34}   F(2, 90)        = {res}   104.10
+{txt}       Model {c |} {res} 7238.18578         2  3619.09289   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 3129.02742        90  34.7669714   {txt}R-squared       ={res}    0.6982
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6915
+{txt}       Total {c |} {res} 10367.2132        92    112.6871   {txt}Root MSE        =   {res} 5.8964
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ghi{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}bpl {c |}{col 14}{res}{space 2}  .256703{col 26}{space 2} .0388077{col 37}{space 1}    6.61{col 46}{space 3}0.000{col 54}{space 4} .1796047{col 67}{space 3} .3338013
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.6159303{col 26}{space 2} .1074625{col 37}{space 1}   -5.73{col 46}{space 3}0.000{col 54}{space 4}-.8294232{col 67}{space 3}-.4024373
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 21.08327{col 26}{space 2} 1.641817{col 37}{space 1}   12.84{col 46}{space 3}0.000{col 54}{space 4} 17.82151{col 67}{space 3} 24.34503
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *realizamos la prueba con el siguiente comando
+
+. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 6 Jan 2022, 20:20:15
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res} 6 Jan 2022, 20:20:44
+
+{com}. estat hettest bpl gdp
+
+{txt}Breusch-Pagan / Cook-Weisberg test for heteroskedasticity 
+         Ho: Constant variance
+{p 9 20}Variables: bpl gdp
+
+{col 10}chi2({res}2{txt}){col 23}={res}     3.88
+{txt}{col 10}Prob > chi2{col 23}={res}   0.1439
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 6 Jan 2022, 20:20:58
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res} 6 Jan 2022, 20:53:09
+
+{com}. *e) Para realizar la prueba de white ejecutamos el siguiente comando
+
+. estat imtest, white
+
+{txt}White's test for Ho: homoskedasticity
+         against Ha: unrestricted heteroskedasticity
+
+{col 10}chi2({res}5{txt}){col 23}= {res}     8.87
+{col 10}{txt}Prob > chi2  = {res}   0.1143
+
+{txt}Cameron & Trivedi's decomposition of IM-test
+
+{hline 21}{c TT}{hline 29}
+{ralign 20:Source} {c |}       chi2     df      p
+{hline 21}{c +}{hline 29}
+{ralign 20:Heteroskedasticity} {c |}{res}       8.87      5    0.1143
+{txt}{ralign 20:Skewness} {c |}{res}       9.90      2    0.0071
+{txt}{ralign 20:Kurtosis} {c |}{res}       0.36      1    0.5509
+{txt}{hline 21}{c +}{hline 29}
+{ralign 20:Total} {c |}{res}      19.13      8    0.0142
+{txt}{hline 21}{c BT}{hline 29}
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 6 Jan 2022, 20:53:50
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res} 6 Jan 2022, 21:41:16
+
+{com}. *f) generaremos la forma funcional de la varianza
+
+. generate FFV=3*bpl+gdp
+
+. generate W=1/FFV
+
+. *hacemos la regresion con estos pesos
+
+. regress ghi bpl gdp [aweight=W]
+{txt}(sum of wgt is 3.308088446501642)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}        93
+{txt}{hline 13}{c +}{hline 34}   F(2, 90)        = {res}    59.60
+{txt}       Model {c |} {res}  3459.5916         2   1729.7958   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 2612.27575        90  29.0252861   {txt}R-squared       ={res}    0.5698
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.5602
+{txt}       Total {c |} {res} 6071.86735        92  65.9985581   {txt}Root MSE        =   {res} 5.3875
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ghi{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}bpl {c |}{col 14}{res}{space 2} .3539422{col 26}{space 2} .0566616{col 37}{space 1}    6.25{col 46}{space 3}0.000{col 54}{space 4} .2413741{col 67}{space 3} .4665102
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.5123155{col 26}{space 2} .0958535{col 37}{space 1}   -5.34{col 46}{space 3}0.000{col 54}{space 4}-.7027453{col 67}{space 3}-.3218858
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 18.42676{col 26}{space 2} 1.362333{col 37}{space 1}   13.53{col 46}{space 3}0.000{col 54}{space 4} 15.72024{col 67}{space 3} 21.13327
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *evaluamos en BPL=3.85 y GDP=13.15
+
+. mfx, at(3.85,13.15)
+
+{txt}Marginal effects after regress
+      y  = Fitted values (predict)
+         = {res} 13.052484
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+     bpl {c |}  {res} .3539422      .05666    6.25   0.000   .242888  .464997      3.85
+     {txt}gdp {c |}  {res}-.5123155      .09585   -5.34   0.000  -.700185 -.324446     13.15
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res} 6 Jan 2022, 21:49:09
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res} 6 Jan 2022, 22:29:18
+
+{com}. *h) volveremos a obtener la regresion original
+
+. regress ghi bpl gdp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        93
+{txt}{hline 13}{c +}{hline 34}   F(2, 90)        = {res}   104.10
+{txt}       Model {c |} {res} 7238.18578         2  3619.09289   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 3129.02742        90  34.7669714   {txt}R-squared       ={res}    0.6982
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6915
+{txt}       Total {c |} {res} 10367.2132        92    112.6871   {txt}Root MSE        =   {res} 5.8964
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ghi{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}bpl {c |}{col 14}{res}{space 2}  .256703{col 26}{space 2} .0388077{col 37}{space 1}    6.61{col 46}{space 3}0.000{col 54}{space 4} .1796047{col 67}{space 3} .3338013
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.6159303{col 26}{space 2} .1074625{col 37}{space 1}   -5.73{col 46}{space 3}0.000{col 54}{space 4}-.8294232{col 67}{space 3}-.4024373
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 21.08327{col 26}{space 2} 1.641817{col 37}{space 1}   12.84{col 46}{space 3}0.000{col 54}{space 4} 17.82151{col 67}{space 3} 24.34503
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *calculamos los residuales de la regresion
+
+. predict u, residuals
+
+. *hacemos la prueba de rachas
+
+. runtest u, threshold(0)
+{txt} N({res}u{txt} <= {res}0{txt}) = {res}51
+{txt} N({res}u{txt} >  {res}0{txt}) = {res}42
+       {txt}obs = {res}93
+   {txt}N(runs) = {res}54
+        {txt}z  = {res}1.46
+  {txt}Prob>|z| = {res}.14
+
+{com}. {smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}10 Jan 2022, 18:18:43
+
+{com}. *Correccion al inciso (h)
+
+. *h) ordenamos los datos BPL
+
+. sort bpl ghi gdp
+
+. *Realizamos la regresion
+
+. regress ghi bpl gdp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        93
+{txt}{hline 13}{c +}{hline 34}   F(2, 90)        = {res}   104.10
+{txt}       Model {c |} {res} 7238.18578         2  3619.09289   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 3129.02742        90  34.7669714   {txt}R-squared       ={res}    0.6982
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6915
+{txt}       Total {c |} {res} 10367.2132        92    112.6871   {txt}Root MSE        =   {res} 5.8964
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ghi{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}bpl {c |}{col 14}{res}{space 2}  .256703{col 26}{space 2} .0388077{col 37}{space 1}    6.61{col 46}{space 3}0.000{col 54}{space 4} .1796047{col 67}{space 3} .3338013
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.6159303{col 26}{space 2} .1074625{col 37}{space 1}   -5.73{col 46}{space 3}0.000{col 54}{space 4}-.8294232{col 67}{space 3}-.4024373
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 21.08327{col 26}{space 2} 1.641817{col 37}{space 1}   12.84{col 46}{space 3}0.000{col 54}{space 4} 17.82151{col 67}{space 3} 24.34503
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *calculamos los residuales
+
+. predict u, residuals
+
+. *ejecutamos la prueba de rachas
+
+. runtest u, threshold(0)
+{txt} N({res}u{txt} <= {res}0{txt}) = {res}51
+{txt} N({res}u{txt} >  {res}0{txt}) = {res}42
+       {txt}obs = {res}93
+   {txt}N(runs) = {res}50
+        {txt}z  = {res}.62
+  {txt}Prob>|z| = {res}.54
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}10 Jan 2022, 18:57:35
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}10 Jan 2022, 19:06:15
+
+{com}. *i) para realizar la prueba de d-w primero generamos los siguientes datos
+
+. generate num=_n
+
+. *entonces tomamos como tsset a num
+
+. tsset num
+{res}{txt}{col 9}time variable:  {res}{col 25}num, 1 to 93
+{txt}{col 17}delta:  {res}1 unit
+
+{com}. *finalmente realizamos la prueba de d-w
+
+. estat dwatson
+
+{txt}Durbin-Watson d-statistic({res}  3{txt},{res}    93{txt}) = {res} 1.975953
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}10 Jan 2022, 23:06:28
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}11 Jan 2022, 14:43:14
+
+{com}. *j) volveremos a cargar los datos originales
+
+. import delimited "D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Hunger GDP Extreme Poverty.csv", clear 
+{res}{text}(4 vars, 93 obs)
+
+{com}. regress ghi bpl gdp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        93
+{txt}{hline 13}{c +}{hline 34}   F(2, 90)        = {res}   104.10
+{txt}       Model {c |} {res} 7238.18578         2  3619.09289   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 3129.02742        90  34.7669714   {txt}R-squared       ={res}    0.6982
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6915
+{txt}       Total {c |} {res} 10367.2132        92    112.6871   {txt}Root MSE        =   {res} 5.8964
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ghi{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}bpl {c |}{col 14}{res}{space 2}  .256703{col 26}{space 2} .0388077{col 37}{space 1}    6.61{col 46}{space 3}0.000{col 54}{space 4} .1796047{col 67}{space 3} .3338013
+{txt}{space 9}gdp {c |}{col 14}{res}{space 2}-.6159303{col 26}{space 2} .1074625{col 37}{space 1}   -5.73{col 46}{space 3}0.000{col 54}{space 4}-.8294232{col 67}{space 3}-.4024373
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 21.08327{col 26}{space 2} 1.641817{col 37}{space 1}   12.84{col 46}{space 3}0.000{col 54}{space 4} 17.82151{col 67}{space 3} 24.34503
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. generate num=_n
+
+. tsset num
+{res}{txt}{col 9}time variable:  {res}{col 25}num, 1 to 93
+{txt}{col 17}delta:  {res}1 unit
+
+{com}. estat dwatson
+
+{txt}Durbin-Watson d-statistic({res}  3{txt},{res}    93{txt}) = {res} 2.263144
+
+{com}. {txt}*(1 variable, 93 observations pasted into data editor)
+{com}
+. {txt}*(1 variable, 94 observations pasted into data editor)
+{com}
+. {txt}*(1 variable, 95 observations pasted into data editor)
+{com}
+. generate ghiauto=ghi-(1- 2.263144/2)*ghi_01
+{txt}(4 missing values generated)
+
+{com}. generate bplauto=bpl-(1- 2.263144/2)*bpl_01
+{txt}(4 missing values generated)
+
+{com}. generate gdpauto=gdp-(1- 2.263144/2)*gdp_01
+{txt}(4 missing values generated)
+
+{com}. regress ghiauto bplauto gdpauto in 2/93
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        92
+{txt}{hline 13}{c +}{hline 34}   F(2, 89)        = {res}   106.68
+{txt}       Model {c |} {res} 7356.78845         2  3678.39422   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 3068.68614        89  34.4796195   {txt}R-squared       ={res}    0.7057
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6990
+{txt}       Total {c |} {res} 10425.4746        91  114.565655   {txt}Root MSE        =   {res} 5.8719
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     ghiauto{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}bplauto {c |}{col 14}{res}{space 2} .2623928{col 26}{space 2} .0379503{col 37}{space 1}    6.91{col 46}{space 3}0.000{col 54}{space 4} .1869864{col 67}{space 3} .3377991
+{txt}{space 5}gdpauto {c |}{col 14}{res}{space 2}-.6017474{col 26}{space 2} .1077844{col 37}{space 1}   -5.58{col 46}{space 3}0.000{col 54}{space 4}-.8159128{col 67}{space 3} -.387582
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 23.59789{col 26}{space 2} 1.820279{col 37}{space 1}   12.96{col 46}{space 3}0.000{col 54}{space 4} 19.98103{col 67}{space 3} 27.21474
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. mfx, at(4.45,12.54)
+
+{txt}Marginal effects after regress
+      y  = Fitted values (predict)
+         = {res} 17.219622
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+ bplauto {c |}  {res} .2623928      .03795    6.91   0.000   .188012  .336774      4.45
+ {txt}gdpauto {c |}  {res}-.6017474      .10778   -5.58   0.000  -.813001 -.390494     12.54
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}11 Jan 2022, 14:59:40
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}11 Jan 2022, 18:12:09
+
+{com}. *g) volveremos a cargar los datos originales
+
+. import delimited "D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Hunger GDP Extreme Poverty.csv", clear 
+{res}{text}(4 vars, 93 obs)
+
+{com}. *calcualremos primero los residuales
+
+. predict u, residuals
+
+. *obtendremos la matriz que tiene a los residuales al cuadrado en su diagonal
+
+. mkmat r=u^2
+{err}variable {bf}r{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. generate r=u^2
+
+. mkmat r
+{res}
+{com}. matrix list r
+{res}
+{txt}r[93,1]
+             r
+ r1 {res} .93882549
+{txt} r2 {res}  21.11684
+{txt} r3 {res} .00745303
+{txt} r4 {res} 36.162025
+{txt} r5 {res} 33.744099
+{txt} r6 {res} 43.110695
+{txt} r7 {res} .09667546
+{txt} r8 {res} 139.99451
+{txt} r9 {res} 21.933661
+{txt}r10 {res} 6.9058213
+{txt}r11 {res} 1.3352941
+{txt}r12 {res} 13.740012
+{txt}r13 {res}  220.9812
+{txt}r14 {res} 216.60258
+{txt}r15 {res} 17.304115
+{txt}r16 {res} 31.824375
+{txt}r17 {res} 48.358097
+{txt}r18 {res} 3.4067631
+{txt}r19 {res}  3.331126
+{txt}r20 {res} 67.734474
+{txt}r21 {res} .00020281
+{txt}r22 {res} 9.0959272
+{txt}r23 {res} .07167276
+{txt}r24 {res} 36.803757
+{txt}r25 {res} .32879061
+{txt}r26 {res} 12.848476
+{txt}r27 {res} 13.027717
+{txt}r28 {res}  6.292191
+{txt}r29 {res}  .0595738
+{txt}r30 {res} 28.690887
+{txt}r31 {res} 32.119556
+{txt}r32 {res} 9.5443621
+{txt}r33 {res} 12.563169
+{txt}r34 {res} 50.564362
+{txt}r35 {res}  5.733202
+{txt}r36 {res} 123.24202
+{txt}r37 {res} 52.465042
+{txt}r38 {res} 47.470165
+{txt}r39 {res} 31.549158
+{txt}r40 {res} 49.436806
+{txt}r41 {res} 48.277466
+{txt}r42 {res} 14.006333
+{txt}r43 {res} .02176603
+{txt}r44 {res} 14.098971
+{txt}r45 {res} 76.876282
+{txt}r46 {res} 39.623047
+{txt}r47 {res} 8.2757864
+{txt}r48 {res} 2.3691285
+{txt}r49 {res} 3.7165878
+{txt}r50 {res} 125.94817
+{txt}r51 {res}  84.43425
+{txt}r52 {res} 9.1500921
+{txt}r53 {res} 60.812923
+{txt}r54 {res} 12.594673
+{txt}r55 {res} 7.5810571
+{txt}r56 {res} 1.6156853
+{txt}r57 {res} 39.269543
+{txt}r58 {res} 28.188574
+{txt}r59 {res} 3.4244857
+{txt}r60 {res} 30.427454
+{txt}r61 {res} .99037564
+{txt}r62 {res} 22.216139
+{txt}r63 {res} .11333422
+{txt}r64 {res} 8.3689375
+{txt}r65 {res} 37.740604
+{txt}r66 {res} 179.53113
+{txt}r67 {res} 44.638199
+{txt}r68 {res} 16.680946
+{txt}r69 {res} 25.194014
+{txt}r70 {res} 26.011312
+{txt}r71 {res} 10.023468
+{txt}r72 {res} 2.0369017
+{txt}r73 {res} 21.595375
+{txt}r74 {res} 85.529121
+{txt}r75 {res} 14.769668
+{txt}r76 {res} 21.208073
+{txt}r77 {res}  9.294446
+{txt}r78 {res} 14.094206
+{txt}r79 {res} 20.894905
+{txt}r80 {res} 180.25339
+{txt}r81 {res} 17.212074
+{txt}r82 {res} 6.9558783
+{txt}r83 {res} .20815708
+{txt}r84 {res} 88.259529
+{txt}r85 {res} 54.978348
+{txt}r86 {res} 9.0782366
+{txt}r87 {res} 43.677509
+{txt}r88 {res} .06774944
+{txt}r89 {res} 1.3910723
+{txt}r90 {res} 61.363064
+{txt}r91 {res} .76269704
+{txt}r92 {res} 14.038188
+{txt}r93 {res} 28.602451
+{reset}
+{com}. matrix D=diag(r)
+
+. *generaremos una columna de unos
+
+. generate o = 1
+
+. *y procederemos a obtener la matriz X
+
+. mkmat o bpl gdp, matrix(X)
+{res}
+{com}. matrix S=1/93*X'*D*X
+
+. *finalmente S_0 es
+
+. matrix list S
+{res}
+{txt}symmetric S[3,3]
+             o        bpl        gdp
+  o {res} 33.645456
+{txt}bpl {res} 747.02864  34720.768
+{txt}gdp {res} 246.18768  2264.7268  3416.3611
+{reset}
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_3\Tarea_3_Comandos.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}11 Jan 2022, 18:17:47
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
