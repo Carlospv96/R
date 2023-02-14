@@ -1,0 +1,863 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}14 Dec 2021, 19:13:19
+
+{com}. *Importamos los datos
+
+. import delimited "D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\Female GDPPPP.csv", encoding(ISO-8859-9) 
+{res}{text}(4 vars, 175 obs)
+
+{com}. *(a) Hacemos la Regresion Lineal clasica
+
+. regress lfprfemale gdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     0.55
+{txt}       Model {c |} {res} 124.910288         1  124.910288   {txt}Prob > F        ={res}    0.4582
+{txt}    Residual {c |} {res} 39094.7635       173  225.981292   {txt}R-squared       ={res}    0.0032
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}   -0.0026
+{txt}       Total {c |} {res} 39219.6738       174  225.400424   {txt}Root MSE        =   {res} 15.033
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  lfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}gdpppp {c |}{col 14}{res}{space 2} .0037503{col 26}{space 2} .0050444{col 37}{space 1}    0.74{col 46}{space 3}0.458{col 54}{space 4}-.0062061{col 67}{space 3} .0137068
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 51.32837{col 26}{space 2} 1.563907{col 37}{space 1}   32.82{col 46}{space 3}0.000{col 54}{space 4} 48.24157{col 67}{space 3} 54.41516
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *(b) Obtenemos el procentajo esperado
+
+. mfx, at(122.5469)
+
+{txt}Marginal effects after regress
+      y  = Fitted values (predict)
+         = {res} 51.787959
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+  gdpppp {c |}  {res} .0037503      .00504    0.74   0.457  -.006136  .013637   122.547
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. *(c) realizamos la gráfica
+
+. predict yh
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. scatter lfprfemale gdpppp || line yh gdpppp
+{res}
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}14 Dec 2021, 19:19:07
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}14 Dec 2021, 20:03:40
+
+{com}. *d) Primero calcularemos los niveles de influncia
+
+. predict hrls, hat
+{err}variable {bf}hrls{sf} already defined
+{txt}{search r(110), local:r(110);}
+
+{com}. drop hrls 
+
+. predict hrls, hat
+
+. *Veamos que datos son atipicos
+
+. generate infrls=hrls>=(2/175)
+{err}variable {bf}infrls{sf} already defined
+{txt}{search r(110), local:r(110);}
+
+{com}. drop infrls 
+
+. generate infrls=hrls>=(2/175)
+
+. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}14 Dec 2021, 20:07:17
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}14 Dec 2021, 21:47:36
+
+{com}. *para la distancia de cook hacemos
+
+. predict drls, cooksd
+
+. generate ckdrls=drls>1
+
+. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}14 Dec 2021, 21:49:27
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}14 Dec 2021, 23:00:27
+
+{com}. regress lfprfemale gdpppp, noconstant
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 174)       = {res}   143.02
+{txt}       Model {c |} {res} 232217.577         1  232217.577   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 282519.968       174  1623.67798   {txt}R-squared       ={res}    0.4511
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.4480
+{txt}       Total {c |} {res} 514737.545       175   2941.3574   {txt}Root MSE        =   {res} 40.295
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  lfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}gdpppp {c |}{col 14}{res}{space 2} .1174968{col 26}{space 2} .0098249{col 37}{space 1}   11.96{col 46}{space 3}0.000{col 54}{space 4} .0981055{col 67}{space 3} .1368881
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *e) El comando anterior ejecuto una regresion lineal sin intercepto
+
+. *e), b) obtendremos el procentaje esperado para el modelo sin intercepto
+
+. mfx, at(122.5469)
+
+{txt}Marginal effects after regress
+      y  = Fitted values (predict)
+         = {res} 14.398867
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+  gdpppp {c |}  {res} .1174968      .00982   11.96   0.000    .09824  .136753   122.547
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. *c) vamos a realizar la grafica para esto, primero necesitamos los valores ajustados
+
+. predict yhrlsi
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. scatter lfprfemale gdpppp || line yhrlsi gdpppp
+{res}
+{com}. {res}{com}graph export "D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\Grafica_rlsi_c)_stata.png", as(png) name("Graph")
+{txt}(file D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\Grafica_rlsi_c)_stata.png written in PNG format)
+{com}*d) Primero calcularemos los niveles de influncia
+
+. predict hrlsi, hat
+
+. *Veamos que datos son atipicos
+
+. generate infrlsi=hrlsi>=(2/175)
+
+. *Para la distancia de cook
+
+. predict drlsi, cooksd
+
+. generate ckdrlsi=drlsi>1
+
+. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}14 Dec 2021, 23:21:37
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}14 Dec 2021, 23:51:04
+
+{com}. *f) antes de hacer la regresión, primero aplicaremos ln a los datos GDPPPP
+
+. generate lngdpppp=ln(gdpppp)
+
+. *ahora ajustaremos el modelo de regresión linlog
+
+. regress lfprfemale lngdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     2.79
+{txt}       Model {c |} {res} 621.666231         1  621.666231   {txt}Prob > F        ={res}    0.0969
+{txt}    Residual {c |} {res} 38598.0075       173   223.10987   {txt}R-squared       ={res}    0.0159
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0102
+{txt}       Total {c |} {res} 39219.6738       174  225.400424   {txt}Root MSE        =   {res} 14.937
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  lfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}lngdpppp {c |}{col 14}{res}{space 2}-1.608956{col 26}{space 2} .9638841{col 37}{space 1}   -1.67{col 46}{space 3}0.097{col 54}{space 4}-3.511443{col 67}{space 3} .2935312
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 59.81571{col 26}{space 2} 4.742368{col 37}{space 1}   12.61{col 46}{space 3}0.000{col 54}{space 4} 50.45536{col 67}{space 3} 69.17606
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *b) obtendremos el procentaje esperado para el modelo sin intercepto
+
+. mfx, at(ln(122.5469))
+{err}ln(122.5469) in at() list not found
+{txt}{search r(198), local:r(198);}
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}14 Dec 2021, 23:58:57
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}15 Dec 2021, 00:06:54
+
+{com}. display ln(122.5469)
+{res}4.8084938
+
+{com}. mfx, at(4.8084938)
+
+{txt}Marginal effects after regress
+      y  = Fitted values (predict)
+         = {res} 52.079057
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+lngdpppp {c |}  {res}-1.608956      .96388   -1.67   0.095  -3.49813  .280223   4.80849
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}15 Dec 2021, 00:13:06
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}15 Dec 2021, 00:20:28
+
+{com}. *c) para obtener la recta ajustada primero obtendremos los valores ajustados
+
+. predict yhlinlog
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. scatter lfprfemale gdpppp || line yhlinlog gdpppp
+{res}
+{com}. *d) Primero calcularemos los niveles de influncia
+
+. predict hlinlog, hat
+
+. *Veamos que datos son atipicos
+
+. generate inflinlog=hlinlog>=(2/175)
+
+. *Para la distancia de cook
+
+. predict dlinlog, cooksd
+
+. generate ckdlinlog=dlinlog>1
+
+. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}15 Dec 2021, 00:25:19
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}17 Dec 2021, 14:36:52
+
+{com}. generate lnlfprfemale=ln( lfprfemale )
+
+. regress lnlfprfemale gdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     2.16
+{txt}       Model {c |} {res} .276339477         1  .276339477   {txt}Prob > F        ={res}    0.1433
+{txt}    Residual {c |} {res} 22.1180305       173  .127849887   {txt}R-squared       ={res}    0.0123
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0066
+{txt}       Total {c |} {res} 22.3943699       174  .128703275   {txt}Root MSE        =   {res} .35756
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}lnlfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}gdpppp {c |}{col 14}{res}{space 2} .0001764{col 26}{space 2}   .00012{col 37}{space 1}    1.47{col 46}{space 3}0.143{col 54}{space 4}-.0000604{col 67}{space 3} .0004132
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.862149{col 26}{space 2} .0371984{col 37}{space 1}  103.83{col 46}{space 3}0.000{col 54}{space 4} 3.788728{col 67}{space 3}  3.93557
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. mfx, at(122.5469)
+
+{txt}Marginal effects after regress
+      y  = Fitted values (predict)
+         = {res} 3.8837662
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+  gdpppp {c |}  {res} .0001764      .00012    1.47   0.142  -.000059  .000412   122.547
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. *Aplicando exp a este resultado tenemos
+
+. display exp(3.8837662)
+{res}48.606934
+
+{com}. *Grafica de los datos
+
+. predict yhloglin
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. *generaremos los datos al aplicar exp
+
+. generate expyhloglin=exp( yhloglin )
+
+. *graficamos el ajuste
+
+. scatter lfprfemale gdpppp || line expyhlinlog gdpppp
+{err}variable {bf}expyhlinlog{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. scatter lfprfemale gdpppp || line expyhloglin gdpppp
+{res}
+{com}. *Ahora veamos los niveles de influencia y la distancia de cook
+
+. predict hloglin, hat
+
+. generate infloglin=hloglin>=(2/175)
+
+. predict dloglin, cooksd
+
+. generate ckdloglin=dloglin>1
+
+. *Regresion para el modelo loglog
+
+. regress lnlfprfemale lngdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     0.24
+{txt}       Model {c |} {res}  .03122529         1   .03122529   {txt}Prob > F        ={res}    0.6237
+{txt}    Residual {c |} {res} 22.3631446       173  .129266732   {txt}R-squared       ={res}    0.0014
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}   -0.0044
+{txt}       Total {c |} {res} 22.3943699       174  .128703275   {txt}Root MSE        =   {res} .35954
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}lnlfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}lngdpppp {c |}{col 14}{res}{space 2} -.011403{col 26}{space 2} .0232011{col 37}{space 1}   -0.49{col 46}{space 3}0.624{col 54}{space 4}-.0571967{col 67}{space 3} .0343907
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.954212{col 26}{space 2} .1141509{col 37}{space 1}   34.64{col 46}{space 3}0.000{col 54}{space 4} 3.728905{col 67}{space 3}  4.17952
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *valor esperado en 122.5469
+
+. mfx, at(4.808494)
+
+{txt}Marginal effects after regress
+      y  = Fitted values (predict)
+         = {res} 3.8993813
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+lngdpppp {c |}  {res} -.011403       .0232   -0.49   0.623  -.056876   .03407   4.80849
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. display exp(3.8993813)
+{res}49.371893
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}17 Dec 2021, 14:49:57
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}17 Dec 2021, 14:50:34
+
+{com}. *Graficaremos el ajuste del modelo loglog
+
+. predict yhloglog
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. generate eyhloglog=exp(yhloglog)
+
+. scatter lfprfemale gdpppp || line eyhloglog gdpppp
+{res}
+{com}. *Ahora veamos los niveles de influencia y la distancia de cook
+
+. predict hloglog, hat
+
+. generate infloglog=hloglog>=(2/175)
+
+. predict dloglog, cooksd
+
+. generate ckdloglog=dloglog>1
+
+. *Modelos Reciproco
+
+. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}17 Dec 2021, 14:52:46
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}17 Dec 2021, 14:53:29
+
+{com}. *Para el modelo reciproco vamos a generar los datos reciprocos
+
+. generate rcpgdpppp=1/gdpppp
+
+. Ajustamos el modelo reciproco
+{err}command {bf}Ajustamos{sf} is unrecognized
+{txt}{search r(199), local:r(199);}
+
+{com}. *Ajustamos el modelo reciproco
+
+. regress lfprfemale rcpgdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}    11.25
+{txt}       Model {c |} {res} 2394.89505         1  2394.89505   {txt}Prob > F        ={res}    0.0010
+{txt}    Residual {c |} {res} 36824.7787       173  212.859993   {txt}R-squared       ={res}    0.0611
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0556
+{txt}       Total {c |} {res} 39219.6738       174  225.400424   {txt}Root MSE        =   {res}  14.59
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  lfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}rcpgdpppp {c |}{col 14}{res}{space 2} 166.8805{col 26}{space 2} 49.75188{col 37}{space 1}    3.35{col 46}{space 3}0.001{col 54}{space 4} 68.68171{col 67}{space 3} 265.0794
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 49.34352{col 26}{space 2} 1.380242{col 37}{space 1}   35.75{col 46}{space 3}0.000{col 54}{space 4} 46.61924{col 67}{space 3}  52.0678
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *el valor esperado en 1/122.5469 es
+
+. display 1/122.5469
+{res}.00816014
+
+{com}. mfx, at(.00816014)
+
+{txt}Marginal effects after regress
+      y  = Fitted values (predict)
+         = {res}  50.70529
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+rcpgdp~p {c |}  {res} 166.8805      49.752    3.35   0.001   69.3686  264.392    .00816
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. *Graficaremos el ajuste del modelo reciproco
+
+. predict yhrcp
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. scatter lfprfemale gdpppp || line yhrcp gdpppp
+{res}
+{com}. *Ahora veamos los niveles de influencia y la distancia de cook
+
+. predict hrcp, hat
+
+. generate infrcp=hrcp>=(2/175)
+
+. predict drcp, cooksd
+
+. generate ckdrcp=drcp>1
+
+. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}17 Dec 2021, 14:56:44
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}17 Dec 2021, 14:57:33
+
+{com}. *Para el modelo log-recipro tenemos
+
+. regress lnlfprfemale rcpgdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     4.52
+{txt}       Model {c |} {res} .570149696         1  .570149696   {txt}Prob > F        ={res}    0.0349
+{txt}    Residual {c |} {res} 21.8242202       173  .126151562   {txt}R-squared       ={res}    0.0255
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0198
+{txt}       Total {c |} {res} 22.3943699       174  .128703275   {txt}Root MSE        =   {res} .35518
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}lnlfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}rcpgdpppp {c |}{col 14}{res}{space 2} 2.574879{col 26}{space 2}  1.21118{col 37}{space 1}    2.13{col 46}{space 3}0.035{col 54}{space 4} .1842866{col 67}{space 3} 4.965472
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.856772{col 26}{space 2} .0336012{col 37}{space 1}  114.78{col 46}{space 3}0.000{col 54}{space 4} 3.790451{col 67}{space 3} 3.923093
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *El valor esperado en 122.5469
+
+. mfx, at(.00816014)
+
+{txt}Marginal effects after regress
+      y  = Fitted values (predict)
+         = {res} 3.8777831
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+rcpgdp~p {c |}  {res} 2.574879     1.21118    2.13   0.034    .20101  4.94875    .00816
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. display exp(3.8777831)
+{res}48.316982
+
+{com}. *Para la grafica del modelo ajusatdo tenemos
+
+. predict yhlogrcp
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. generate expyhlogrcp=exp(yhlogrcp)
+
+. scatter lfprfemale gdpppp || line expyhlogrcp gdpppp
+{res}
+{com}. *Ahora veamos los niveles de influencia y la distancia de cook
+
+. predict hlogrcp, hat
+
+. generate inflogrcp=hlogrcp>=(2/175)
+
+. predict dlogrcp, cooksd
+
+. generate ckdlogrcp=dlogrcp>1
+
+. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}17 Dec 2021, 14:59:27
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}17 Dec 2021, 15:00:02
+
+{com}. *Para el modelo polinomial de grado 3 tenemos
+
+. generate gdpppp3=gdpppp^3
+
+. regress lfprfemale gdpppp3
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     1.89
+{txt}       Model {c |} {res} 424.103475         1  424.103475   {txt}Prob > F        ={res}    0.1708
+{txt}    Residual {c |} {res} 38795.5703       173  224.251851   {txt}R-squared       ={res}    0.0108
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0051
+{txt}       Total {c |} {res} 39219.6738       174  225.400424   {txt}Root MSE        =   {res} 14.975
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  lfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}gdpppp3 {c |}{col 14}{res}{space 2} 6.70e-09{col 26}{space 2} 4.87e-09{col 37}{space 1}    1.38{col 46}{space 3}0.171{col 54}{space 4}-2.92e-09{col 67}{space 3} 1.63e-08
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 51.69942{col 26}{space 2} 1.173968{col 37}{space 1}   44.04{col 46}{space 3}0.000{col 54}{space 4} 49.38227{col 67}{space 3} 54.01656
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *El valor esperado en 122.5469 es
+
+. mfx, at(122.5469)
+
+{txt}Marginal effects after regress
+      y  = Fitted values (predict)
+         = {res}  51.69942
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+ gdpppp3 {c |}  {res} 6.70e-09      .00000    1.38   0.169  -2.9e-09  1.6e-08   122.547
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. *Ahora para la grafica del modelo ajustado tenemos
+
+. predict yh3
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. scatter lfprfemale gdpppp || line yh3 gdpppp
+{res}
+{com}. *Ahora veamos los niveles de influencia y la distancia de cook
+
+. predict h3, hat
+
+. generate inf3=h3>=(2/175)
+
+. predict d3, cooksd
+
+. generate ckd3=d3>1
+
+. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}17 Dec 2021, 15:02:15
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}17 Dec 2021, 15:02:55
+
+{com}. *El error cuadratico medio se presenta en la tabla al correr regress, entonces solo calcularemos el estadistico de akaike con estat ic
+
+. regress lfprfemale gdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     0.55
+{txt}       Model {c |} {res} 124.910288         1  124.910288   {txt}Prob > F        ={res}    0.4582
+{txt}    Residual {c |} {res} 39094.7635       173  225.981292   {txt}R-squared       ={res}    0.0032
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}   -0.0026
+{txt}       Total {c |} {res} 39219.6738       174  225.400424   {txt}Root MSE        =   {res} 15.033
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  lfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}gdpppp {c |}{col 14}{res}{space 2} .0037503{col 26}{space 2} .0050444{col 37}{space 1}    0.74{col 46}{space 3}0.458{col 54}{space 4}-.0062061{col 67}{space 3} .0137068
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 51.32837{col 26}{space 2} 1.563907{col 37}{space 1}   32.82{col 46}{space 3}0.000{col 54}{space 4} 48.24157{col 67}{space 3} 54.41516
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. estat ic
+
+{txt}Akaike's information criterion and Bayesian information criterion
+
+{hline 13}{c TT}{hline 63}
+       Model {c |}          N   ll(null)  ll(model)      df        AIC        BIC
+{hline 13}{c +}{hline 63}
+{ralign 12:.}{col 14}{c |}{res}{col 16}       175{col 28}-721.8772{col 39}-721.5981{col 50}     2{col 58} 1447.196{col 69} 1453.526
+{txt}{hline 13}{c BT}{hline 63}
+{p 0 6 0 77}Note: BIC uses N = number of observations. See {helpb bic_note:{bind:[R] BIC note}}.{p_end}
+
+{com}. regress lfprfemale gdpppp, noconstant
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 174)       = {res}   143.02
+{txt}       Model {c |} {res} 232217.577         1  232217.577   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 282519.968       174  1623.67798   {txt}R-squared       ={res}    0.4511
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.4480
+{txt}       Total {c |} {res} 514737.545       175   2941.3574   {txt}Root MSE        =   {res} 40.295
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  lfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}gdpppp {c |}{col 14}{res}{space 2} .1174968{col 26}{space 2} .0098249{col 37}{space 1}   11.96{col 46}{space 3}0.000{col 54}{space 4} .0981055{col 67}{space 3} .1368881
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. estat ic
+
+{txt}Akaike's information criterion and Bayesian information criterion
+
+{hline 13}{c TT}{hline 63}
+       Model {c |}          N   ll(null)  ll(model)      df        AIC        BIC
+{hline 13}{c +}{hline 63}
+{ralign 12:.}{col 14}{c |}{res}{col 16}       175{col 28}        .{col 39}-894.6521{col 50}     1{col 58} 1791.304{col 69} 1794.469
+{txt}{hline 13}{c BT}{hline 63}
+{p 0 6 0 77}Note: BIC uses N = number of observations. See {helpb bic_note:{bind:[R] BIC note}}.{p_end}
+
+{com}. regress lfprfemale lngdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     2.79
+{txt}       Model {c |} {res} 621.666231         1  621.666231   {txt}Prob > F        ={res}    0.0969
+{txt}    Residual {c |} {res} 38598.0075       173   223.10987   {txt}R-squared       ={res}    0.0159
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0102
+{txt}       Total {c |} {res} 39219.6738       174  225.400424   {txt}Root MSE        =   {res} 14.937
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  lfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}lngdpppp {c |}{col 14}{res}{space 2}-1.608956{col 26}{space 2} .9638841{col 37}{space 1}   -1.67{col 46}{space 3}0.097{col 54}{space 4}-3.511443{col 67}{space 3} .2935312
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 59.81571{col 26}{space 2} 4.742368{col 37}{space 1}   12.61{col 46}{space 3}0.000{col 54}{space 4} 50.45536{col 67}{space 3} 69.17606
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. estat ic
+
+{txt}Akaike's information criterion and Bayesian information criterion
+
+{hline 13}{c TT}{hline 63}
+       Model {c |}          N   ll(null)  ll(model)      df        AIC        BIC
+{hline 13}{c +}{hline 63}
+{ralign 12:.}{col 14}{c |}{res}{col 16}       175{col 28}-721.8772{col 39}-720.4791{col 50}     2{col 58} 1444.958{col 69} 1451.288
+{txt}{hline 13}{c BT}{hline 63}
+{p 0 6 0 77}Note: BIC uses N = number of observations. See {helpb bic_note:{bind:[R] BIC note}}.{p_end}
+
+{com}. regress lnlfprfemale gdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     2.16
+{txt}       Model {c |} {res} .276339477         1  .276339477   {txt}Prob > F        ={res}    0.1433
+{txt}    Residual {c |} {res} 22.1180305       173  .127849887   {txt}R-squared       ={res}    0.0123
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0066
+{txt}       Total {c |} {res} 22.3943699       174  .128703275   {txt}Root MSE        =   {res} .35756
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}lnlfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}gdpppp {c |}{col 14}{res}{space 2} .0001764{col 26}{space 2}   .00012{col 37}{space 1}    1.47{col 46}{space 3}0.143{col 54}{space 4}-.0000604{col 67}{space 3} .0004132
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.862149{col 26}{space 2} .0371984{col 37}{space 1}  103.83{col 46}{space 3}0.000{col 54}{space 4} 3.788728{col 67}{space 3}  3.93557
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. estat ic
+
+{txt}Akaike's information criterion and Bayesian information criterion
+
+{hline 13}{c TT}{hline 63}
+       Model {c |}          N   ll(null)  ll(model)      df        AIC        BIC
+{hline 13}{c +}{hline 63}
+{ralign 12:.}{col 14}{c |}{res}{col 16}       175{col 28}-68.41631{col 39}-67.32987{col 50}     2{col 58} 138.6597{col 69} 144.9893
+{txt}{hline 13}{c BT}{hline 63}
+{p 0 6 0 77}Note: BIC uses N = number of observations. See {helpb bic_note:{bind:[R] BIC note}}.{p_end}
+
+{com}. regress lnlfprfemale lngdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     0.24
+{txt}       Model {c |} {res}  .03122529         1   .03122529   {txt}Prob > F        ={res}    0.6237
+{txt}    Residual {c |} {res} 22.3631446       173  .129266732   {txt}R-squared       ={res}    0.0014
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}   -0.0044
+{txt}       Total {c |} {res} 22.3943699       174  .128703275   {txt}Root MSE        =   {res} .35954
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}lnlfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}lngdpppp {c |}{col 14}{res}{space 2} -.011403{col 26}{space 2} .0232011{col 37}{space 1}   -0.49{col 46}{space 3}0.624{col 54}{space 4}-.0571967{col 67}{space 3} .0343907
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.954212{col 26}{space 2} .1141509{col 37}{space 1}   34.64{col 46}{space 3}0.000{col 54}{space 4} 3.728905{col 67}{space 3}  4.17952
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. estat ic
+
+{txt}Akaike's information criterion and Bayesian information criterion
+
+{hline 13}{c TT}{hline 63}
+       Model {c |}          N   ll(null)  ll(model)      df        AIC        BIC
+{hline 13}{c +}{hline 63}
+{ralign 12:.}{col 14}{c |}{res}{col 16}       175{col 28}-68.41631{col 39}-68.29422{col 50}     2{col 58} 140.5884{col 69}  146.918
+{txt}{hline 13}{c BT}{hline 63}
+{p 0 6 0 77}Note: BIC uses N = number of observations. See {helpb bic_note:{bind:[R] BIC note}}.{p_end}
+
+{com}. regress lfprfemale rcpgdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}    11.25
+{txt}       Model {c |} {res} 2394.89505         1  2394.89505   {txt}Prob > F        ={res}    0.0010
+{txt}    Residual {c |} {res} 36824.7787       173  212.859993   {txt}R-squared       ={res}    0.0611
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0556
+{txt}       Total {c |} {res} 39219.6738       174  225.400424   {txt}Root MSE        =   {res}  14.59
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  lfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}rcpgdpppp {c |}{col 14}{res}{space 2} 166.8805{col 26}{space 2} 49.75188{col 37}{space 1}    3.35{col 46}{space 3}0.001{col 54}{space 4} 68.68171{col 67}{space 3} 265.0794
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 49.34352{col 26}{space 2} 1.380242{col 37}{space 1}   35.75{col 46}{space 3}0.000{col 54}{space 4} 46.61924{col 67}{space 3}  52.0678
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. estat ic
+
+{txt}Akaike's information criterion and Bayesian information criterion
+
+{hline 13}{c TT}{hline 63}
+       Model {c |}          N   ll(null)  ll(model)      df        AIC        BIC
+{hline 13}{c +}{hline 63}
+{ralign 12:.}{col 14}{c |}{res}{col 16}       175{col 28}-721.8772{col 39} -716.364{col 50}     2{col 58} 1436.728{col 69} 1443.058
+{txt}{hline 13}{c BT}{hline 63}
+{p 0 6 0 77}Note: BIC uses N = number of observations. See {helpb bic_note:{bind:[R] BIC note}}.{p_end}
+
+{com}. regress lnlfprfemale rcpgdpppp
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     4.52
+{txt}       Model {c |} {res} .570149696         1  .570149696   {txt}Prob > F        ={res}    0.0349
+{txt}    Residual {c |} {res} 21.8242202       173  .126151562   {txt}R-squared       ={res}    0.0255
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0198
+{txt}       Total {c |} {res} 22.3943699       174  .128703275   {txt}Root MSE        =   {res} .35518
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}lnlfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}rcpgdpppp {c |}{col 14}{res}{space 2} 2.574879{col 26}{space 2}  1.21118{col 37}{space 1}    2.13{col 46}{space 3}0.035{col 54}{space 4} .1842866{col 67}{space 3} 4.965472
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.856772{col 26}{space 2} .0336012{col 37}{space 1}  114.78{col 46}{space 3}0.000{col 54}{space 4} 3.790451{col 67}{space 3} 3.923093
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. estat ic
+
+{txt}Akaike's information criterion and Bayesian information criterion
+
+{hline 13}{c TT}{hline 63}
+       Model {c |}          N   ll(null)  ll(model)      df        AIC        BIC
+{hline 13}{c +}{hline 63}
+{ralign 12:.}{col 14}{c |}{res}{col 16}       175{col 28}-68.41631{col 39}-66.15975{col 50}     2{col 58} 136.3195{col 69} 142.6491
+{txt}{hline 13}{c BT}{hline 63}
+{p 0 6 0 77}Note: BIC uses N = number of observations. See {helpb bic_note:{bind:[R] BIC note}}.{p_end}
+
+{com}. regress lfprfemale gdpppp3
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       175
+{txt}{hline 13}{c +}{hline 34}   F(1, 173)       = {res}     1.89
+{txt}       Model {c |} {res} 424.103475         1  424.103475   {txt}Prob > F        ={res}    0.1708
+{txt}    Residual {c |} {res} 38795.5703       173  224.251851   {txt}R-squared       ={res}    0.0108
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0051
+{txt}       Total {c |} {res} 39219.6738       174  225.400424   {txt}Root MSE        =   {res} 14.975
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  lfprfemale{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}gdpppp3 {c |}{col 14}{res}{space 2} 6.70e-09{col 26}{space 2} 4.87e-09{col 37}{space 1}    1.38{col 46}{space 3}0.171{col 54}{space 4}-2.92e-09{col 67}{space 3} 1.63e-08
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 51.69942{col 26}{space 2} 1.173968{col 37}{space 1}   44.04{col 46}{space 3}0.000{col 54}{space 4} 49.38227{col 67}{space 3} 54.01656
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. estat ic
+
+{txt}Akaike's information criterion and Bayesian information criterion
+
+{hline 13}{c TT}{hline 63}
+       Model {c |}          N   ll(null)  ll(model)      df        AIC        BIC
+{hline 13}{c +}{hline 63}
+{ralign 12:.}{col 14}{c |}{res}{col 16}       175{col 28}-721.8772{col 39}-720.9258{col 50}     2{col 58} 1445.852{col 69} 1452.181
+{txt}{hline 13}{c BT}{hline 63}
+{p 0 6 0 77}Note: BIC uses N = number of observations. See {helpb bic_note:{bind:[R] BIC note}}.{p_end}
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\ComandosStata.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}17 Dec 2021, 15:05:06
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

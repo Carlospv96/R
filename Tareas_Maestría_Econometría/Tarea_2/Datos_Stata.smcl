@@ -1,0 +1,14 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\Datos_Stata.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 8 Dec 2021, 16:34:18
+
+{com}. import delimited "D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\Female GDPPPP.csv", encoding(ISO-8859-9) clear 
+{res}{text}(4 vars, 175 obs)
+
+{com}. save "D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\uwu.dta", replace
+{txt}file D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_2\uwu.dta saved
+
+{com}. exit

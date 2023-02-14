@@ -1,0 +1,917 @@
+%% LyX 2.3.0 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[10pt,spanish,refpage,intoc,bibliography=totoc,index=totoc,BCOR7.5mm,captions=tableheading]{report}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=1cm,lmargin=1cm,rmargin=1cm}
+\pagestyle{empty}
+\setcounter{secnumdepth}{3}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\usepackage{babel}
+\addto\shorthandsspanish{\spanishdeactivate{~<>.}}
+
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=true]
+ {hyperref}
+\hypersetup{
+ linkcolor=black, citecolor=black, urlcolor=blue, filecolor=blue, pdfpagelayout=OneColumn, pdfnewwindow=true, pdfstartview=XYZ, plainpages=false}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\@ifundefined{date}{}{\date{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\allowdisplaybreaks[1]
+
+%% Mis definiciones
+\def\NN{{\mathop{{\rm I}\kern-.2em{\rm N}}\nolimits}}
+\def\RR{{\mathop{{\rm I}\kern-.2em{\rm R}}\nolimits}}
+\def\CC{{\rm C\kern-.18cm\vrule width.6pt height 6pt depth-.2pt \kern.18cm}}
+
+%  Cambiar nombre de demostración
+\addto\captionsspanish{%
+\def\proofname{Solución:} 
+}
+
+% Para matrices con etiquetas en renglones y columnas
+\usepackage{etoolbox}
+\let\bbordermatrix\bordermatrix
+\patchcmd{\bbordermatrix}{8.75}{4.75}{}{}
+\patchcmd{\bbordermatrix}{\left(}{\left[}{}{}
+\patchcmd{\bbordermatrix}{\right)}{\right]}{}{}
+
+\makeatother
+
+\begin{document}
+\begin{center}
+\begin{tabular}{cr}
+\multirow{3}{*}{{\Large{}\includegraphics[width=0.08\textwidth]{UASLP-logo} }} & {\Large{}\hspace*{4cm}Universidad Autónoma de San Luis Potosí}\tabularnewline
+ & \tabularnewline
+ & {\Large{}Econometría}\tabularnewline
+ & \medskip{}
+\tabularnewline
+\end{tabular}
+\par\end{center}
+
+\begin{center}
+{\large{}Tarea 2\hfill{} 13 de diciembre de 2021}{\large\par}
+{\large{}Carlos Enrique Ponce Villagran}
+\par\end{center}
+
+\rule[0.3ex]{1\columnwidth}{1pt}
+
+En el archivo Female GDPPPP.csv se encuentra, por país y a finales de 2018, el porcentaje de mujeres mayores de 15 años que forman parte de la población económicamente activa (LFPRFemale), el Producto Interno Bruto a valores de Paridad de Poder Adquisitivo (GDPPPP, en cientos de dólares estadounidenses del 2017) y la población de esos países (Population).
+
+\begin{enumerate}
+
+\item Utilizando \texttt{Stata}:
+
+\begin{enumerate}
+
+\item Encuentra los parámetros correspondientes para un modelo de regresión lineal múltiple que explique cómo afecta el valor del PIB-PPA en el porcentaje de mujeres mayores de años económicamente activas e interprétalos.
+
+\begin{proof}
+
+Usando el comando \texttt{regress lfprfemale gdpppp} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1=0.0037503 \quad\text{y}\quad \hat{\beta}_0=51.32837\]
+
+por lo tanto tenemos que por cada vez que el PIB-PPA aumenta tenemos que el porcentaje de mujeres mayores de 15 años que forman parte de la población económicamente activa aumenta en un $0.0037503$.
+
+\end{proof}
+
+\item ¿Cuál sería el porcentaje esperado de población femenina económicamente activa en un país con PIB en valores PPA de 122.5469?
+
+\begin{proof}
+
+Evaluando esto en \texttt{Stata} con \texttt{mfx, at(122.5469)} obtenemos
+
+\[\hat{y}=\hat{\beta}_0+\hat{\beta}_1\cdot122.5469=51.787959\]
+
+\end{proof}
+
+\item Realiza una gráfica de los datos junto con la curva de regresión para el modelo ajustado anteriormente.
+
+\begin{proof}
+
+Usando \texttt{scatter lfprfemale gdpppp || line yh gdpppp} obtenemos la siguiente gráfica de los datos
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7cm]{Grafica_c).png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+
+\end{proof}
+
+\item[d)] Identifica, mediante el nivel de influencia y la distancia de Cook, la existencia o no de datos atípicos para el modelo ajustado.
+
+\begin{proof}
+
+Usamos el comando \texttt{predict hrls, hat} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos el comando \texttt{generate infrls=hrls>=(2/175)} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $2/175$ y por lo tanto son datos atípicos entonces de estos datos generados tenemos que las observaciones 7, 8, 11, 15, 23, 29, 44, 55, 56, 60, 69, 71, 76, 84, 93, 94, 112, 118, 130, 138, 142, 153, 154, 167, 168, 169.\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{predict drls, cooksd} y utilizamos el comando \texttt{generate ckdrls=drls>1} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $1$ y por lo tanto, según el criterio de la distancia de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\item[e)] Repetir los incisos a), b), c) y d) para un modelo sin intercepto.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Usando el comando \texttt{regress lfprfemale gdpppp, noconstant} obtuvimos el siguiente parámetro de la Regresión
+
+\[\hat{\beta}_1=0.1174968\]
+
+por lo tanto tenemos que por cada vez que el PIB-PPA aumenta tenemos que el porcentaje de mujeres mayores de 15 años que forman parte de la población económicamente activa aumenta en un $0.1174968$.
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Evaluando esto en \texttt{Stata} con\texttt{mfx, at(122.5469)} obtenemos
+
+\[\hat{y}=\hat{\beta}_1\cdot122.5469=14.398867\]
+
+\end{proof}
+
+\item[c)] \begin{proof}
+
+Usando \texttt{scatter lfprfemale gdpppp || line yhrlsi gdpppp} obtenemos la siguiente gráfica de los datos
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7cm]{Grafica_rlsi_e)_c)_stata.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{predict hrlsi, hat} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos el comando \texttt{generate infrlsi=hrlsi>=(2/175)} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $2/175$ y por lo tanto son datos atípicos entonces de estos datos generados tenemos que las observaciones 7, 8, 11, 15, 23, 29, 44, 55, 56, 60, 69, 71, 76, 84, 93, 94, 112, 118, 130, 138, 142, 153, 154, 167, 168, 169.\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{predict drlsi, cooksd} y utilizamos el comando \texttt{generate ckdrlsi=drlsi>1} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $1$ y por lo tanto, según el criterio de la distancia de Cook, este modelo no presenta datos atípicos.
+
+
+\end{proof}
+
+\end{enumerate}
+
+\item[f)] Repetir los incisos a), b), c) y d) para un modelo linlog.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Usando aplicando los datos la transformación logaritmo con \texttt{generate lngdpppp=ln(gdpppp)} entonce aplicando la regresión con el comando \texttt{regress lfprfemale lngdpppp} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1=-1.608956 \quad\text{y}\quad \hat{\beta}_0= 59.81571\]
+
+entonces la interpretación es que por unidad porcentual que el PIB-PPA aumenta, el porcentaje de mujeres mayores de 15 años que forman parte de la población económicamente activa disminuye $0.01608956\%$
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Encontraremos primero el valor de $\ln(122.5469)$ con el comando \texttt{display ln(122.5469) } esto nos muestra que $\ln(122.5469)=4.8084938$ entonces con\texttt{mfx, at(4.8084938)} obtenemos
+
+\[\hat{y}=\hat{\beta}_0+\hat{\beta}_1\cdot4.8084938=52.079057\]
+
+\end{proof}
+
+\item[c)] \begin{proof}
+
+Usando \texttt{scatter lfprfemale gdpppp || line yhlinlog gdpppp} obtenemos la siguiente gráfica de los datos
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7cm]{Grafica_linlog_e)_c)_stata.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{predict hlinlog, hat} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos el comando \texttt{generate inflinlog=hlinlog>=(2/175)} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $2/175$ y por lo tanto son datos atípicos entonces de estos datos generados tenemos datos atipicos de la observación 1 a la 34 y de 141 a la 175.\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{predict dlinlog, cooksd} y utilizamos el comando \texttt{generate ckdlinlog=dlinlog>1} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $1$ y por lo tanto, según el criterio de la distancia de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[g)] Repetir los incisos a), b), c) y d) para un modelo loglin
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Usando aplicando los datos la transformación logaritmo con \texttt{generate lnlfprfemale=ln(lfprfemale)} entonce aplicando la regresión con el comando \texttt{regress lnlfprfemale gdpppp} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1=.0001764  \quad\text{y}\quad \hat{\beta}_0= 3.862149\]
+
+entonces la interpretación es que por cada  vez quel PIB-PPA aumenta, el porcentaje de mujeres mayores de 15 años que forman parte de la población económicamente activa aumenta en $0.01764\%$
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Utilizando el comando \texttt{mfx, at(122.5469)} obtenemos $\ln(y)$ entonces al aplicar $\exp$ tenemos el valor
+
+\[\hat{y}=\exp\left(\hat{\beta}_0+\hat{\beta}_1\cdot122.5469\right)=48.606934\]
+
+\end{proof}
+
+\item[c)] \begin{proof}
+
+Usando \texttt{scatter lfprfemale gdpppp || line yhloglin gdpppp} obtenemos la siguiente gráfica de los datos
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7cm]{Grafica_loglin_g)_c)_stata.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{predict hloglin, hat} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos el comando \texttt{generate infloglin=hloglin>=(2/175)} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $2/175$ y por lo tanto son datos atípicos entonces de estos datos generados tenemos datos atípicos de la observación 150 a la 175.\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{predict dloglin, cooksd} y utilizamos el comando \texttt{generate ckdloglin=dloglin>1} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $1$ y por lo tanto, según el criterio de la distancia de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[h)] Repetir los incisos a), b), c), y d) para un modelo loglog.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Usando aplicando la regresión con el comando \texttt{regress lnlfprfemale lngdpppp} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1=-0.011403  \quad\text{y}\quad \hat{\beta}_0= 3.954212\]
+
+entonces la interpretación es que por unidad porcentual que el PIB-PPA aumenta, el porcentaje de mujeres mayores de 15 años que forman parte de la población económicamente activa disminuye $0.00011403\%$.
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Utilizando el comando \texttt{mfx, at(122.5469)} obtenemos
+
+\[y=e^{\beta_0}e^{\beta_1\ln(122.5469)}=49.371893\]
+
+\end{proof}
+
+\newpage
+
+\item[c)] \begin{proof}
+
+Usando aplicando la función exponencial para \texttt{yhloglog} y graficar tenemos \texttt{scatter lfprfemale gdpppp || line eyhloglog gdpppp} obtenemos la siguiente gráfica de los datos
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7cm]{Grafica_loglog_h)_c)_stata.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{predict hloglog, hat} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos el comando \texttt{generate infloglog=hloglog>=(2/175)} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $2/175$ y por lo tanto son datos atípicos entonces de estos datos generados tenemos datos atípicos de la observación 1 a la 34 y 142 a la 175 (los datos estando de manera ordenada).\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{predict dloglog, cooksd} y utilizamos el comando \texttt{generate ckdloglog=dloglog>1} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $1$ y por lo tanto, según el criterio de la distancia de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[i)] Repetir los incisos a), b), c), y d) para un modelo reciproco.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Generamos los datos reciprocos de \texttt{GDPPPP} con \texttt{generate rcpgdpppp=1/gdpppp} aplicando la regresión con el comando \texttt{regress lfprfemale rcpgdpppp} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1= 166.8805 \quad\text{y}\quad \hat{\beta}_0= 49.34352\]
+
+Este modelo no tiene una interpretación clara de los parámetros.
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Utilizando \texttt{display 1/122.5469} y el comando \texttt{mfx, at(0.00816014)} obtenemos
+
+\[y=\beta_0+\beta_1\frac{1}{122.5469}=50.70529\]
+
+\end{proof}
+
+\newpage
+
+\item[c)] \begin{proof}
+
+Usando \texttt{scatter lfprfemale gdpppp || line yhrcp gdpppp} obtenemos la siguiente gráfica de los datos
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7cm]{Grafica_rcp_i)_c)_stata.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{predict hrcp, hat} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos el comando \texttt{generate infrcp=hrcp>=(2/175)} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $2/175$ y por lo tanto son datos atípicos entonces de estos datos generados tenemos datos atípicos de la observación 1 a la 21 (los datos estando de manera ordenada).\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{predict drcp, cooksd} y utilizamos el comando \texttt{generate ckdrcp=drcp>1} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $1$ y por lo tanto, según el criterio de la distancia de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[j)] Repetir los incisos a), b), c), y d) para un modelo log-reciproco.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Aplicando la regresión con el comando \texttt{regress lnlfprfemale rcpgdpppp} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1= 2.574879 \quad\text{y}\quad \hat{\beta}_0= 3.856772\]
+
+Este modelo no tiene una interpretación clara de los parámetros.
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Utilizando el comando \texttt{mfx, at(0.00816014)} obtenemos
+
+\[y=\exp(\beta_0+\beta_1\frac{1}{122.5469})=48.316982\]
+
+\end{proof}
+
+\newpage
+
+\item[c)] \begin{proof}
+
+Usando \texttt{scatter lfprfemale gdpppp || line expyhlogrcp gdpppp} obtenemos la siguiente gráfica de los datos
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7cm]{Grafica_logrcp_j)_c)_stata.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{predict hlogrcp, hat} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos el comando \texttt{generate inflogrcp=hlogrcp>=(2/175)} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $2/175$ y por lo tanto son datos atípicos entonces de estos datos generados tenemos datos atípicos de la observación 1 a la 21 (los datos estando de manera ordenada).\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{predict dlogrcp, cooksd} y utilizamos el comando \texttt{generate ckdlogrcp=drcp>1} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $1$ y por lo tanto, según el criterio de la distancia de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[k)] Repetir los incisos a), b), c) y d) para un modelo polinomial de grado 3.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Generando los datos \texttt{generate gdpppp3=gdpppp\^3} y aplicando la regresión con el comando \texttt{regress lfprfemale gdpppp3} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1= 6.8\times10^{-9} \quad\text{y}\quad \hat{\beta}_0= 51.69942\]
+
+Este modelo no tiene una interpretación clara de los parámetros.
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Utilizando el comando \texttt{mfx, at(122.5469)} obtenemos
+
+\[y=\hat{\beta}_0+\hat{\beta}_1(122.5469)^3=51.69942\]
+
+\end{proof}
+
+\item[c)] \begin{proof}
+
+Usando \texttt{scatter lfprfemale gdpppp || line expyhlogrcp gdpppp} obtenemos la siguiente gráfica de los datos
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7cm]{Grafica_p3_k)_c)_stata.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)]
+
+\begin{proof}
+
+Usamos el comando \texttt{predict h3, hat} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos el comando \texttt{generate inf3=h3>=(2/175)} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $2/175$ y por lo tanto son datos atípicos entonces de estos datos generados tenemos datos atípicos de la observación 169 a la 175 (los datos estando de manera ordenada).\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{predict d3, cooksd} y utilizamos el comando \texttt{generate ckd3=d3>1} para generar un conjunto de datos con unos y ceros, donde los unos indican que la $i$-ésima observación es mayor a $1$ y por lo tanto, según el criterio de la distancia de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[l)] De acuerdo con el criterio del error cuadrático medio, ¿cuál de todos los modelos anteriores es el más adecuado para los datos?
+
+\begin{proof}
+
+A continuación presentamos los errores cuadráticos medios de todos los modelos que se mostraron en las tablas al usar \texttt{regress}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline 
+Modelo & RS & Sin intercepto & linlog & loglin & loglog & Reciproco & log-reciproco & Polinomial 3 \\ 
+\hline 
+MSE & 225.981292 & 1623.67798 & 223.10987 &  231.8277 & 229.4852 & 212.859993 & 218.215 & 224.251851 \\ 
+\hline 
+\end{tabular}
+\end{center}
+
+Por lo tanto, el modelo con el $MSE$ más pequeño es el modelo Reciproco, por lo tanto por el criterio del $MSE$ tenemos que el modelo reciproco es el modejo que mejor ajusta a los datos.
+
+\end{proof}
+
+\item[m)]  De acuerdo con el criterio de Akaike, ¿cuál de todos los modelos anteriores es el más adecuado para los datos?
+
+\begin{proof}
+
+A continuación presentamos los estadísticos de Akaike utilizando el comando \texttt{estat ic}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline 
+Modelo & RS & Sin intercepto & linlog & loglin & loglog & Reciproco & log-reciproco & Polinomial 3 \\ 
+\hline 
+AIC & 1447.196 & 1791.304 & 1444.958  & 138.6597 & 140.5884 & 1436.728 & 136.3195 & 1445.852 \\ 
+\hline 
+\end{tabular}
+\end{center}
+
+Por lo tanto, siguiendo el criterio de Akaike el modelo que se acerca mas al ajuste original es el modelo log-reciproco.
+
+\end{proof}
+
+\end{enumerate}
+
+\item Repetir el inciso 1) utilizando \texttt{R}.
+
+\begin{enumerate}
+
+\item[a)] Encuentra los parámetros correspondientes para un modelo de regresión lineal múltiple que explique cómo afecta el valor del PIB-PPA en el porcentaje de mujeres mayores de años económicamente activas e interprétalos.
+
+\begin{proof}
+
+Usando el comando \texttt{rl<-lm(LFPRFemale~GDPPPP,data = datos)} y \texttt{summary(rl)} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1=0.0037503 \quad\text{y}\quad \hat{\beta}_0=51.32837\]
+
+por lo tanto tenemos que por cada vez que el PIB-PPA aumenta tenemos que el porcentaje de mujeres mayores de 15 años que forman parte de la población económicamente activa aumenta en un $0.0037503$.
+
+\end{proof}
+
+\item[b)] ¿Cuál sería el porcentaje esperado de población femenina económicamente activa en un país con PIB en valores PPA de 122.5469?
+
+\begin{proof}
+
+Evaluando esto con \texttt{predict(rl, newdata=data.frame(GDPPPP=122.5469))} obtenemos
+
+\[\hat{y}=\hat{\beta}_0+\hat{\beta}_1\cdot122.5469=51.78796\]
+
+\end{proof}
+
+\item[c)] Realiza una gráfica de los datos junto con la curva de regresión para el modelo ajustado anteriormente.
+
+\begin{proof}
+
+Usando \verb|plot(datos$GDPPPP,datos$LFPRFemale,xlab = "GDPPPP", ylab = "LFPRFemale",| 
+
+\verb|title(main = "Regresión lineal simple"),pch=19,col="mediumpurple1")| obtenemos la siguiente gráfica de los datos y \texttt{abline(rl)} para graficar la recta
+
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=8cm]{Grafica_rls_c)_r.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+
+\end{proof}
+
+\item[d)] Identifica, mediante el nivel de influencia y la distancia de Cook, la existencia o no de datos atípicos para el modelo ajustado.
+
+\begin{proof}
+
+Usamos el comando \texttt{Hrl<-hatvalues(rl)} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos un comando \texttt{for if} que nos imprima e lnúmero de observación en caso de que \texttt{Hrl[i]>=2/175}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, obtuvimos que 7, 8, 11, 15, 23, 29, 44, 55, 56, 60, 69, 71, 76, 84, 93, 94, 112, 118, 130, 138, 142, 153, 154, 167, 168, 169 son datos atípicos.\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{drls<-cooks.distance(rl)} y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{drls[i]>1}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, no se imprimió ningún indice por lo tanto, según el criterio de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\item[e)] Repetir los incisos a), b), c) y d) para un modelo sin intercepto.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Usando el comando \texttt{rlint<-lm(LFPRFemale~GDPPPP-1,data = datos)} y \texttt{summary(rlint)} obtuvimos el siguiente parámetro de la Regresión
+
+\[\hat{\beta}_1=0.117497\]
+
+por lo tanto tenemos que por cada vez que el PIB-PPA aumenta tenemos que el porcentaje de mujeres mayores de 15 años que forman parte de la población económicamente activa aumenta en un $0.117497$.
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Evaluando esto con \texttt{predict(rlint, newdata=data.frame(GDPPPP=122.5469))} obtenemos
+
+\[\hat{y}=\hat{\beta}_1\cdot122.5469=14.39887\]
+
+\end{proof}
+
+\item[c)] \begin{proof}
+
+Usando \verb|plot(datos$GDPPPP,datos$LFPRFemale,xlab = "GDPPPP", ylab = "LFPRFemale",| 
+
+\verb|title(main = "Regresión lineal simple"),pch=19,col="burlywood1")| obtenemos la siguiente gráfica de los datos y \texttt{abline(rlint)} para graficar la recta
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=8cm]{Grafica_rlsi_e)_c)_r.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{Hrlint<-hatvalues(rlint)} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{Hrlint[i]>=2/175}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, obtuvimos que 7, 8, 11, 15, 23, 29, 44, 55, 56, 60, 69, 71, 76, 84, 93, 94, 112, 118, 130, 138, 142, 153, 154, 167, 168, 169 son datos atípicos.\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{drlsint<-cooks.distance(rlint)} y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{drlsint[i]>1}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, no se imprimió ningún indice por lo tanto, según el criterio de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[f)] Repetir los incisos a), b), c) y d) para un modelo linlog.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Usando el comando \texttt{rllinlog<-lm(LFPRFemale~log(GDPPPP),data = datos)} y \texttt{summary(rllinlog)} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1=-1.6090 \quad\text{y}\quad \hat{\beta}_0=59.8157\]
+
+La interpretación es que por cada unidad porcentual que el PIB-PPA aumenta, el porcentaje de mujeres mayores de 15 años que forman parte de la población económicamente activada disminuye en $1.6090\%$.
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Evaluando esto con \texttt{predict(rllinlog, newdata=data.frame(GDPPPP=122.5469))} obtenemos
+
+\[\hat{y}=\hat{\beta}_0+\hat{\beta}_1\cdot\ln(122.5469)=52.07906 \]
+
+\end{proof}
+
+\item[c)] \begin{proof}
+
+Usando \verb|plot(datos$GDPPPP,datos$LFPRFemale,xlab = "GDPPPP", ylab = "LFPRFemale",| 
+
+\verb|title(main = "Regresión lineal simple"),pch=19,col="firebrick2")| obtenemos la siguiente gráfica de los datos y \texttt{lines(sort(predict(rllinlog, newdata=data.frame(GDPPPP=1:1500))))} el ajuste del modelo
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=8cm]{Grafica_linlog_f)_c)_r.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{Hlinlog<-hatvalues(rllinlog)} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{Hlinlog[i]>=2/175}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, obtuvimos que los datos 107 al 175 son atípicos (los datos estando de manera ordenada).\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{dlinlog<-cooks.distance(rllinlog)} y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{dlinlog[i]>1}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, no se imprimió ningún indice por lo tanto, según el criterio de Cook, este modelo no presenta datos atípicos.
+
+
+\end{proof}
+
+\end{enumerate}
+
+\item[g)] Repetir los incisos a), b), c) y d) para un modelo loglin.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Usando el comando \texttt{rlloglin<-lm(log(LFPRFemale)~GDPPPP,data = datos)} y \texttt{summary(rlloglin)} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1=0.0001764 \quad\text{y}\quad \hat{\beta}_0=3.8621492\]
+
+entonces por cada unidad que el PIB-PPA aumenta, el porcentaje de mujeres mayores de 15 años que forman parte de la población económicamente activas aumenta en $0.01764\%$.
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Evaluando esto con \texttt{exp(predict(rlloglin, newdata=data.frame(GDPPPP=122.5469)))} ya que sabemos que $Y=\exp\left(\beta_0 +\beta_1x\right)$, entonces obtenemos el valor
+
+\[\hat{y}=\exp\left(\hat{\beta}_0+\hat{\beta}_1\cdot122.5469\right)= 48.60693 \]
+
+\end{proof}
+
+\item[c)] \begin{proof}
+
+Usando \verb|plot(datos$GDPPPP,datos$LFPRFemale,xlab = "GDPPPP", ylab = "LFPRFemale",| 
+
+\verb|title(main = "Regresión lineal simple"),pch=19,col="firebrick2")| obtenemos la siguiente gráfica de los datos y \texttt{lines(sort(predict(rllinlog, newdata=data.frame(GDPPPP=1:1500))))} el ajuste del modelo
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=8cm]{Grafica_loglin_g)_c)_r.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{Hloglin<-hatvalues(rlloglin)} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{Hloglin[i]>=2/175}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, obtuvimos que los datos 150 al 175 son atípicos (los datos estando de manera ordenada).\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{dloglin<-cooks.distance(rlloglin)} y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{dloglin[i]>1}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, no se imprimió ningún indice por lo tanto, según el criterio de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[h)] Repetir los incisos a), b), c) y d) para un modelo loglog.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Usando el comando \texttt{rlloglog<-lm(log(LFPRFemale)~log(GDPPPP),data = datos)} y \texttt{summary(rlloglog)} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1=-0.0114 \quad\text{y}\quad \hat{\beta}_0=3.9542\]
+
+entonces por cada unidad porcentual que el PIB-PPA aumenta, el porcentaje de mujeres mayores de 15 años que forman parte de la población económicamente activas aumenta en $0.000114\%$.
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Evaluando esto con \texttt{exp(predict(rlloglog, newdata=data.frame(GDPPPP=122.5469)))} ya que sabemos que $Y=\exp\left(\beta_0 +\beta_1x\right)$, entonces obtenemos el valor
+
+\[\hat{y}=\exp\left(\hat{\beta}_0+\hat{\beta}_1\cdot\ln(122.5469)\right)= 49.37189 \]
+
+\end{proof}
+
+\item[c)] \begin{proof}
+
+Usando \verb|plot(datos$GDPPPP,datos$LFPRFemale,xlab = "GDPPPP", ylab = "LFPRFemale",| 
+
+\verb|title(main = "Regresión loglog"),pch=19,col="lightsalmon1")| obtenemos la siguiente gráfica de los datos y \texttt{lines(sort(predict(rlloglog, newdata=data.frame(GDPPPP=1:1300))))} el ajuste del modelo
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=8cm]{Grafica_loglog_h)_c)_r.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{Hloglog<-hatvalues(rlloglog)} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{Hloglog[i]>=2/175}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, obtuvimos que los datos 107 al 175 son atípicos (los datos estando de manera ordenada).\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{dloglog<-cooks.distance(rlloglog)} y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{dloglog[i]>1}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, no se imprimió ningún indice por lo tanto, según el criterio de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[i)] Repetir los incisos a), b), c) y d) para un modelo reciproco.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Generamos los datos reciprocos con \texttt{datos\$rcpGDPPPP<-1/datos\$GDPPPP} usando el comando \texttt{rlrcp<-lm(LFPRFemale~rcpGDPPPP,data = datos)} y \texttt{summary(rlrcp)} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1=166.88 \quad\text{y}\quad \hat{\beta}_0=49.34\]
+
+FALTAAAAAAA INTERPRETACIOOOOOOON
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Evaluando esto con \texttt{predict(rlrcp, newdata=data.frame(rcpGDPPPP=1/122.5469))} ya que sabemos que $Y=\exp\left(\beta_0 +\beta_1x\right)$, entonces obtenemos el valor
+
+\[\hat{y}=\hat{\beta}_0+\hat{\beta}_1\frac{1}{122.5469}= 50.70529  \]
+
+\end{proof}
+
+\item[c)] \begin{proof}
+
+Usando \verb|plot(datos$GDPPPP,datos$LFPRFemale,xlab = "GDPPPP", ylab = "LFPRFemale",| 
+
+\verb|title(main = "Modelo Reciproco"),pch=19,col="lightseagreen")| obtenemos la siguiente gráfica de los datos y \texttt{lines(sort(predict(rlrcp, newdata=data.frame(rcpGDPPPP=1:1300))))} el ajuste del modelo
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=8cm]{Grafica_rcp_i)_c)_r.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{Hrcp<-hatvalues(rlrcp)} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{Hrcp[i]>=2/175}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, obtuvimos que los datos 155 al 175 son atípicos (los datos estando de manera ordenada).\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{dloglog<-cooks.distance(rlloglog)} y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{dloglog[i]>1}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, no se imprimió ningún indice por lo tanto, según el criterio de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[j)] Repetir los incisos a), b), c) y d) para un modelo log-reciproco.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Usando el comando \texttt{rllogrcp<-lm(log(LFPRFemale)~rcpGDPPPP,data = datos)} y \texttt{summary(rllogrcp)} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1=2.5749 \quad\text{y}\quad \hat{\beta}_0=3.8568\]
+
+Este modelo no tiene una interpretación clara de los parámetros.
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Evaluando esto con \texttt{predict(rllogrcp, newdata=data.frame(rcpGDPPPP=1/122.5469))} ya que sabemos que $Y=\exp\left(\beta_0 +\beta_1x\right)$, entonces obtenemos el valor
+
+\[\hat{y}=\exp\left(\hat{\beta}_0+\hat{\beta}_1\frac{1}{122.5469}\right)= 48.31698  \]
+
+\end{proof}
+
+\item[c)] \begin{proof}
+
+Usando \verb|plot(datos$GDPPPP,datos$LFPRFemale,xlab = "GDPPPP", ylab = "LFPRFemale",| 
+
+\verb|title(main = "Modelo Reciproco"),pch=19,col="deepskyblue2")| obtenemos la siguiente gráfica de los datos y \texttt{lines(sort(predict(rlrcp, newdata=data.frame(logrcpGDPPPP=1:1300))))} el ajuste del modelo
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=8cm]{Grafica_logrcp_j)_c)_r.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{Hlogrcp<-hatvalues(rllogrcp)} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{Hlogrcp[i]>=2/175}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, obtuvimos que los datos 155 al 175 son atípicos (los datos estando de manera ordenada).\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{dlogrcp<-cooks.distance(rllogrcp)} y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{dlogrcp[i]>1}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, no se imprimió ningún indice por lo tanto, según el criterio de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[k)] Repetir los incisos a), b), c) y d) para un modelo polinomial de grado 3.
+
+\begin{enumerate}
+
+\item[a)] \begin{proof}
+
+Generamos los datos al cubo con \texttt{datos\$GDPPPP3<-(datos\$GDPPPP)\^3} y usando el comando \texttt{rlp3<-lm(LFPRFemale~GDPPPP3,data = datos)} y \texttt{summary(rlp3)} obtuvimos los siguientes parámetros de la Regresión
+
+\[\hat{\beta}_1=6.703\times10^{-9}\quad\text{y}\quad \hat{\beta}_0=51.70\]
+
+Este modelo no tiene una interpretación clara de los parámetros.
+
+\end{proof}
+
+\item[b)] \begin{proof}
+
+Evaluando esto con \texttt{predict(rlp3, newdata=data.frame(GDPPPP3=122.5469))} obtenemos el valor
+
+\[\hat{y}=\hat{\beta}_0+\hat{\beta}_1122.5469= 51.69942 \]
+
+\end{proof}
+
+\newpage
+
+\item[c)] \begin{proof}
+
+Usando \verb|plot(datos$GDPPPP,datos$LFPRFemale,xlab = "GDPPPP", ylab = "LFPRFemale",| 
+
+\verb|title(main = "Modelo Polinomial de grado 3"),pch=19,col="springgreen4")| obtenemos la siguiente gráfica de los datos y \texttt{lines(sort(predict(rlrcp, newdata=data.frame(GDPPPP3=1:1300))))} el ajuste del modelo
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=8cm]{Grafica_p3_k)_c)_r.png}
+\caption{Gráfica de los datos con su recta ajustada}
+\end{figure}
+
+\end{proof}
+
+\item[d)] \begin{proof}
+
+Usamos el comando \texttt{Hp3<-hatvalues(rlp3)} para obtener los niveles de influencia y agregarlos al conjunto de datos y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{Hp3[i]>=2/175}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, obtuvimos que los datos 169 al 175 son atípicos (los datos estando de manera ordenada).\\
+
+Ahora, para la distancia de Cook utilizamos el comando \texttt{dp3<-cooks.distance(rlp3)} y utilizamos un comando \texttt{for if} que nos imprima el número de observación en caso de que \texttt{dp3[i]>1}, en caso de imprimir \texttt{i} vamos a tener un dato atípico. Al ejecutarlo, no se imprimió ningún indice por lo tanto, según el criterio de Cook, este modelo no presenta datos atípicos.
+
+\end{proof}
+
+\end{enumerate}
+
+\item[l)] De acuerdo con el criterio del error cuadrático medio, ¿cuál de todos los modelos anteriores es el más adecuado para los datos?
+
+\begin{proof}
+
+A continuación presentamos los errores cuadráticos medios de todos los modelos que se generaron con la función
+
+\texttt{mse<-function(rl) mean(rl\$residuals\^2)}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline 
+Modelo & RS & Sin intercepto & linlog & loglin & loglog & Reciproco & log-reciproco & Polinomial 3 \\ 
+\hline 
+MSE & 223.3986 & 1614.4 & 220.56 &  231.8277 & 229.4852 & 210.4273 & 218.215 & 221.689 \\ 
+\hline 
+\end{tabular}
+\end{center}
+
+Por lo tanto, el modelo con el $MSE$ más pequeño es el modelo Reciproco, por lo tanto por el criterio del $MSE$ tenemos que el modelo reciproco es el modejo que mejor ajusta a los datos.
+
+\end{proof}
+
+\item[m)]  De acuerdo con el criterio de Akaike, ¿cuál de todos los modelos anteriores es el más adecuado para los datos?
+
+\begin{proof}
+
+A continuación presentamos los estadísticos de Akaike obtenidos con la función \texttt{AIC()}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline 
+Modelo & RS & Sin intercepto & linlog & loglin & loglog & Reciproco & log-reciproco & Polinomial 3 \\ 
+\hline 
+AIC & 1449.196 & 1793.304 &  1446.958 & 140.6597 & 142.5884 & 1438.728 & 138.3195 & 1447.852 \\ 
+\hline 
+\end{tabular}
+\end{center}
+
+Por lo tanto, siguiendo el criterio de Akaike el modelo que se acerca mas al ajuste original es el modelo log-reciproco.
+
+\end{proof}
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
