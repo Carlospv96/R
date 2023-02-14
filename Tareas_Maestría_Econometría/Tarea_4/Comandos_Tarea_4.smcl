@@ -1,0 +1,292 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Comandos_Tarea_4.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}19 Jan 2022, 18:22:36
+
+{com}. log using "D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Comandos_Tarea_4.smcl", replace
+{err}log file already open
+{txt}{search r(604), local:r(604);}
+
+{com}. import delimited "D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Datos_Tarea_4.csv", encoding(UTF-8) clear 
+{res}{text}(6 vars, 22 obs)
+
+{com}. *a) generamos la variable dicotomica para AP, SX y EC
+
+. generate DAP=ap=="SI"
+
+. generate DSX=sx=="H"
+
+. generate DEC=ec=="C"
+
+. *Generamos el modelo de regresión
+
+. reg DAP DSX DEC ed sm dt
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        22
+{txt}{hline 13}{c +}{hline 34}   F(5, 16)        = {res}     8.61
+{txt}       Model {c |} {res} 3.97692959         5  .795385918   {txt}Prob > F        ={res}    0.0004
+{txt}    Residual {c |} {res} 1.47761586        16  .092350991   {txt}R-squared       ={res}    0.7291
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6444
+{txt}       Total {c |} {res} 5.45454545        21   .25974026   {txt}Root MSE        =   {res} .30389
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         DAP{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}DSX {c |}{col 14}{res}{space 2} .2664348{col 26}{space 2} .1510318{col 37}{space 1}    1.76{col 46}{space 3}0.097{col 54}{space 4}-.0537384{col 67}{space 3} .5866079
+{txt}{space 9}DEC {c |}{col 14}{res}{space 2}-.1949693{col 26}{space 2} .1498123{col 37}{space 1}   -1.30{col 46}{space 3}0.212{col 54}{space 4}-.5125572{col 67}{space 3} .1226187
+{txt}{space 10}ed {c |}{col 14}{res}{space 2} .0373237{col 26}{space 2} .0198504{col 37}{space 1}    1.88{col 46}{space 3}0.078{col 54}{space 4}-.0047573{col 67}{space 3} .0794047
+{txt}{space 10}sm {c |}{col 14}{res}{space 2} .0394149{col 26}{space 2} .0180903{col 37}{space 1}    2.18{col 46}{space 3}0.045{col 54}{space 4} .0010652{col 67}{space 3} .0777646
+{txt}{space 10}dt {c |}{col 14}{res}{space 2}  .109932{col 26}{space 2} .0263081{col 37}{space 1}    4.18{col 46}{space 3}0.001{col 54}{space 4} .0541614{col 67}{space 3} .1657027
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-2.187515{col 26}{space 2} .5895925{col 37}{space 1}   -3.71{col 46}{space 3}0.002{col 54}{space 4}-3.437396{col 67}{space 3}-.9376351
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. predict yhat
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. *obtenemos la forma funcional de la Varianza
+
+. generate FFV= yhat*(1- yhat)
+
+. *generamos los pesos
+
+. generate W=1/FFV
+
+. *y obtenemos el modelo lineal de probabilidad con los pesos W
+
+. reg DAP DSX DEC ed sm dt[aweight=W]
+{txt}(sum of wgt is 223.2356610298157)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}        15
+{txt}{hline 13}{c +}{hline 34}   F(5, 9)         = {res}    15.02
+{txt}       Model {c |} {res} 3.28632559         5  .657265117   {txt}Prob > F        ={res}    0.0004
+{txt}    Residual {c |} {res} .393882816         9  .043764757   {txt}R-squared       ={res}    0.8930
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.8335
+{txt}       Total {c |} {res}  3.6802084        14  .262872029   {txt}Root MSE        =   {res}  .2092
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         DAP{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}DSX {c |}{col 14}{res}{space 2} .3259096{col 26}{space 2} .1814312{col 37}{space 1}    1.80{col 46}{space 3}0.106{col 54}{space 4}-.0845163{col 67}{space 3} .7363354
+{txt}{space 9}DEC {c |}{col 14}{res}{space 2}-.1151172{col 26}{space 2} .2069676{col 37}{space 1}   -0.56{col 46}{space 3}0.592{col 54}{space 4}-.5833104{col 67}{space 3}  .353076
+{txt}{space 10}ed {c |}{col 14}{res}{space 2} .0492511{col 26}{space 2} .0225146{col 37}{space 1}    2.19{col 46}{space 3}0.056{col 54}{space 4}-.0016805{col 67}{space 3} .1001826
+{txt}{space 10}sm {c |}{col 14}{res}{space 2}  .045168{col 26}{space 2} .0135439{col 37}{space 1}    3.33{col 46}{space 3}0.009{col 54}{space 4} .0145295{col 67}{space 3} .0758065
+{txt}{space 10}dt {c |}{col 14}{res}{space 2} .1348974{col 26}{space 2} .0284027{col 37}{space 1}    4.75{col 46}{space 3}0.001{col 54}{space 4}  .070646{col 67}{space 3} .1991488
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-2.872065{col 26}{space 2} .8203996{col 37}{space 1}   -3.50{col 46}{space 3}0.007{col 54}{space 4}-4.727938{col 67}{space 3}-1.016192
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. *Finalmente evaluamos para un hombre casado con 36 años, un ingreso mensual de 24.5k, y que vive a 8.5km de su trabajo
+
+. mfx, at(1,1,36,24.5,8.5)
+
+{txt}Marginal effects after regress
+      y  = Fitted values (predict)
+         = {res} 1.3650088
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+     DSX*{c |}  {res} .3259096      .18143    1.80   0.072  -.029689  .681508         1
+     {txt}DEC*{c |}  {res}-.1151172      .20697   -0.56   0.578  -.520766  .290532         1
+      {txt}ed {c |}  {res} .0492511      .02251    2.19   0.029   .005123  .093379        36
+      {txt}sm {c |}  {res}  .045168      .01354    3.33   0.001   .018622  .071714      24.5
+      {txt}dt {c |}  {res} .1348974       .0284    4.75   0.000   .079229  .190566       8.5
+{txt}{hline 9}{c BT}{hline 68}
+(*) dy/dx is for discrete change of dummy variable from 0 to 1
+
+{com}. scalar p=1-1.3650088
+
+. scalar list
+{txt}         p = {res} -.3650088
+
+{com}. *b) para obtener el modelo LOGIT usamos el siguiente comando
+
+. logit DAP DSX DEC ed sm dt
+
+{res}{txt}Iteration 0:{space 3}log likelihood = {res:-15.158203}  
+Iteration 1:{space 3}log likelihood = {res:-4.3845086}  
+Iteration 2:{space 3}log likelihood = {res:-3.7872358}  
+Iteration 3:{space 3}log likelihood = {res:-3.4767253}  
+Iteration 4:{space 3}log likelihood = {res:-3.4118778}  
+Iteration 5:{space 3}log likelihood = {res:-3.4030033}  
+Iteration 6:{space 3}log likelihood = {res:-3.4028392}  
+Iteration 7:{space 3}log likelihood = {res:-3.4028389}  
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}        22
+{txt}{col 49}LR chi2({res}5{txt}){col 67}= {res}     23.51
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0003
+{txt}Log likelihood = {res}-3.4028389{txt}{col 49}Pseudo R2{col 67}= {res}    0.7755
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         DAP{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}DSX {c |}{col 14}{res}{space 2} 13.53485{col 26}{space 2}  21.8207{col 37}{space 1}    0.62{col 46}{space 3}0.535{col 54}{space 4}-29.23295{col 67}{space 3} 56.30264
+{txt}{space 9}DEC {c |}{col 14}{res}{space 2}-1.212031{col 26}{space 2} 2.575955{col 37}{space 1}   -0.47{col 46}{space 3}0.638{col 54}{space 4} -6.26081{col 67}{space 3} 3.836748
+{txt}{space 10}ed {c |}{col 14}{res}{space 2} 1.086903{col 26}{space 2} 1.875283{col 37}{space 1}    0.58{col 46}{space 3}0.562{col 54}{space 4}-2.588584{col 67}{space 3}  4.76239
+{txt}{space 10}sm {c |}{col 14}{res}{space 2} 1.743288{col 26}{space 2} 3.009031{col 37}{space 1}    0.58{col 46}{space 3}0.562{col 54}{space 4}-4.154305{col 67}{space 3} 7.640881
+{txt}{space 10}dt {c |}{col 14}{res}{space 2}  1.88881{col 26}{space 2} 1.997883{col 37}{space 1}    0.95{col 46}{space 3}0.344{col 54}{space 4}-2.026969{col 67}{space 3} 5.804588
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-91.71813{col 26}{space 2} 149.8834{col 37}{space 1}   -0.61{col 46}{space 3}0.541{col 54}{space 4}-385.4842{col 67}{space 3} 202.0479
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: 2 failures and 1 success completely determined.{p_end}
+
+{com}. *entonces la probabilidad para una mujer soltera de 30 años, con un salario mensual de 27.25 pesos y que vive a 5.7 kilómetros de su lugar de trabajo tenga un auto propio se obtiene con
+
+. mfx, at(0,0,30,27.25,5.7)
+
+{txt}Marginal effects after logit
+      y  = Pr(DAP) (predict)
+         = {res}  .3014835
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+     DSX*{c |}  {res} .6985134      .84189    0.83   0.407  -.951563  2.34859         0
+     {txt}DEC*{c |}  {res}-.1876608       .5452   -0.34   0.731  -1.25623  .880905         0
+      {txt}ed {c |}  {res} .2288921      .42303    0.54   0.588   -.60024  1.05802        30
+      {txt}sm {c |}  {res} .3671211      .67297    0.55   0.585  -.951876  1.68612     27.25
+      {txt}dt {c |}  {res} .3977667      .58539    0.68   0.497  -.749577  1.54511       5.7
+{txt}{hline 9}{c BT}{hline 68}
+(*) dy/dx is for discrete change of dummy variable from 0 to 1
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Comandos_Tarea_4.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}19 Jan 2022, 18:37:24
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Comandos_Tarea_4.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}22 Jan 2022, 22:45:29
+
+{com}. *d) la forma de calcular el salario minimo se hizo con el siguiente comando
+
+. display (log(0.85/0.15)-_b[_cons]-_b[DSX]*0-_b[DEC]*1-_b[ed]*33-_b[dt]*5)/_b[sm]
+{res}28.310258
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Comandos_Tarea_4.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}22 Jan 2022, 22:46:13
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Comandos_Tarea_4.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}23 Jan 2022, 00:09:08
+
+{com}. *g) primero haremos el inciso a) para un modelo probit, entonces ejecutemos el modelo probit con el siguiente comando
+
+. probit DAP DSX DEC ed sm dt
+
+{res}{txt}Iteration 0:{space 3}log likelihood = {res:-15.158203}  
+Iteration 1:{space 3}log likelihood = {res:-4.1611827}  
+Iteration 2:{space 3}log likelihood = {res:-3.6428215}  
+Iteration 3:{space 3}log likelihood = {res:-3.4090367}  
+Iteration 4:{space 3}log likelihood = {res:-3.3675807}  
+Iteration 5:{space 3}log likelihood = {res:-3.3555371}  
+Iteration 6:{space 3}log likelihood = {res:-3.3552471}  
+Iteration 7:{space 3}log likelihood = {res:-3.3552471}  
+{res}
+{txt}Probit regression{col 49}Number of obs{col 67}= {res}        22
+{txt}{col 49}LR chi2({res}5{txt}){col 67}= {res}     23.61
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0003
+{txt}Log likelihood = {res}-3.3552471{txt}{col 49}Pseudo R2{col 67}= {res}    0.7787
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         DAP{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}DSX {c |}{col 14}{res}{space 2} 7.529379{col 26}{space 2} 12.50364{col 37}{space 1}    0.60{col 46}{space 3}0.547{col 54}{space 4} -16.9773{col 67}{space 3} 32.03606
+{txt}{space 9}DEC {c |}{col 14}{res}{space 2} -.613448{col 26}{space 2} 1.456021{col 37}{space 1}   -0.42{col 46}{space 3}0.674{col 54}{space 4}-3.467198{col 67}{space 3} 2.240302
+{txt}{space 10}ed {c |}{col 14}{res}{space 2} .6047397{col 26}{space 2} 1.072378{col 37}{space 1}    0.56{col 46}{space 3}0.573{col 54}{space 4}-1.497083{col 67}{space 3} 2.706562
+{txt}{space 10}sm {c |}{col 14}{res}{space 2} .9585943{col 26}{space 2} 1.714236{col 37}{space 1}    0.56{col 46}{space 3}0.576{col 54}{space 4}-2.401246{col 67}{space 3} 4.318435
+{txt}{space 10}dt {c |}{col 14}{res}{space 2} 1.071535{col 26}{space 2} 1.131513{col 37}{space 1}    0.95{col 46}{space 3}0.344{col 54}{space 4} -1.14619{col 67}{space 3}  3.28926
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-50.92204{col 26}{space 2} 85.62839{col 37}{space 1}   -0.59{col 46}{space 3}0.552{col 54}{space 4}-218.7506{col 67}{space 3} 116.9065
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 2}Note: 4 failures and 5 successes completely determined.{p_end}
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Comandos_Tarea_4.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}23 Jan 2022, 00:10:04
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Comandos_Tarea_4.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}23 Jan 2022, 00:10:36
+
+{com}. *evaluamos para un hombre casado con 36 años, un ingreso mensual de 24.5k, y que vive a 8.5km de su trabajo
+
+. mfx, at(1,1,36,24.5,8.5)
+
+{txt}Marginal effects after probit
+      y  = Pr(DAP) (predict)
+         = {res}         1
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+     DSX*{c |}  {res} .0023365      .02701    0.09   0.931  -.050598  .055271         1
+     {txt}DEC*{c |}  {res}        0           0       .       .         0        0         1
+      {txt}ed {c |}  {res}        0           0       .       .         0        0        36
+      {txt}sm {c |}  {res}        0           0       .       .         0        0      24.5
+      {txt}dt {c |}  {res}        0           0       .       .         0        0       8.5
+{txt}{hline 9}{c BT}{hline 68}
+(*) dy/dx is for discrete change of dummy variable from 0 to 1
+
+{com}. *b) entonces la probabilidad para una mujer soltera de 30 años, con un salario mensual de 27.25 pesos y que vive a 5.7 kilómetros de su lugar de trabajo tenga un auto propio se obtiene con
+
+. mfx, at(0,0,30,27.25,5.7)
+
+{txt}Marginal effects after probit
+      y  = Pr(DAP) (predict)
+         = {res} .29102055
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+     DSX*{c |}  {res} .7089795      .76315    0.93   0.353  -.786769  2.20473         0
+     {txt}DEC*{c |}  {res}-.1687789      .47417   -0.36   0.722  -1.09814   .76058         0
+      {txt}ed {c |}  {res} .2073455      .34247    0.61   0.545  -.463887  .878578        30
+      {txt}sm {c |}  {res} .3286707      .54312    0.61   0.545  -.735818  1.39316     27.25
+      {txt}dt {c |}  {res} .3673943      .41828    0.88   0.380   -.45242  1.18721       5.7
+{txt}{hline 9}{c BT}{hline 68}
+(*) dy/dx is for discrete change of dummy variable from 0 to 1
+
+{com}. display 1-.29102055
+{res}.70897945
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Comandos_Tarea_4.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}23 Jan 2022, 00:12:14
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Comandos_Tarea_4.smcl
+  {txt}log type:  {res}smcl
+{txt}resumed on:  {res}23 Jan 2022, 00:27:13
+
+{com}. *d) ejecutamos el siguiente comando para encontrar el valor minimo del salario
+
+. display (invnormal(0.85)-_b[_cons]-_b[DSX]*0-_b[DEC]*1-_b[ed]*33-_b[dt]*5)/_b[sm]
+{res}28.435217
+
+{com}. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\Users\Carlos Ponce\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Maestría_Semestre_2\Econometría\Tareas\Tarea_4\Comandos_Tarea_4.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}23 Jan 2022, 00:27:55
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
