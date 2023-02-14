@@ -1,0 +1,11 @@
+Para determinar si nuestro modelo con las regresoras $(x_{2},x_{7},x_{8})$ y aplicado el método de Cochrane-Orrcut tiene multicolinealidad usaremos el factor de incremento de la varianza \\~\\
+
+\[VIF_{i}=\frac{1}{1-R_{i}^{2}}\]\\~\\
+
+usando la funciona \textcolor{blue}{vif()} se obtuvieron los siguientes valores
+
+\begin{lstlisting}
+    x0.2     x0.7     x0.8
+1.147736 2.032427 1.843541
+\end{lstlisting}
+

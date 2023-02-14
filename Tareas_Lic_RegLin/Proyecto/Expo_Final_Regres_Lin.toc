@@ -1,0 +1,8 @@
+\babel@toc {spanish}{}
+\beamer@sectionintoc {1}{Contexto del Problema}{3}{0}{1}
+\beamer@sectionintoc {2}{Modelo Inicial}{6}{0}{2}
+\beamer@subsectionintoc {2}{1}{Regresi\IeC {\'o}n Lineal M\IeC {\'u}ltiple}{6}{0}{2}
+\beamer@subsectionintoc {2}{2}{An\IeC {\'a}lisis de la Varianza}{16}{0}{2}
+\beamer@sectionintoc {3}{Selecci\IeC {\'o}n de Variables}{22}{0}{3}
+\beamer@sectionintoc {4}{Multicolinealidad}{31}{0}{4}
+\beamer@sectionintoc {5}{Conclusi\IeC {\'o}n}{34}{0}{5}
