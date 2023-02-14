@@ -1,0 +1,282 @@
+%% LyX 2.3.0 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[10pt,spanish,refpage,intoc,bibliography=totoc,index=totoc,BCOR7.5mm,captions=tableheading]{report}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=1cm,lmargin=1cm,rmargin=1cm}
+\pagestyle{empty}
+\setcounter{secnumdepth}{3}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\usepackage{babel}
+\addto\shorthandsspanish{\spanishdeactivate{~<>.}}
+
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=true]
+ {hyperref}
+\hypersetup{
+ linkcolor=black, citecolor=black, urlcolor=blue, filecolor=blue, pdfpagelayout=OneColumn, pdfnewwindow=true, pdfstartview=XYZ, plainpages=false}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\@ifundefined{date}{}{\date{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\allowdisplaybreaks[1]
+
+%% Mis definiciones
+\def\NN{{\mathop{{\rm I}\kern-.2em{\rm N}}\nolimits}}
+\def\RR{{\mathop{{\rm I}\kern-.2em{\rm R}}\nolimits}}
+\def\CC{{\rm C\kern-.18cm\vrule width.6pt height 6pt depth-.2pt \kern.18cm}}
+
+%  Cambiar nombre de demostración
+\addto\captionsspanish{%
+\def\proofname{Solución:} 
+}
+
+% Para matrices con etiquetas en renglones y columnas
+\usepackage{etoolbox}
+\let\bbordermatrix\bordermatrix
+\patchcmd{\bbordermatrix}{8.75}{4.75}{}{}
+\patchcmd{\bbordermatrix}{\left(}{\left[}{}{}
+\patchcmd{\bbordermatrix}{\right)}{\right]}{}{}
+
+\makeatother
+
+\begin{document}
+\begin{center}
+\begin{tabular}{cr}
+\multirow{3}{*}{{\Large{}\includegraphics[width=0.08\textwidth]{UASLP-logo} }} & {\Large{}\hspace*{4cm}Universidad Autónoma de San Luis Potosí}\tabularnewline
+ & \tabularnewline
+ & {\Large{}Econometría}\tabularnewline
+ & \medskip{}
+\tabularnewline
+\end{tabular}
+\par\end{center}
+
+\begin{center}
+{\large{}Tarea 1\hfill{} 3 de diciembre de 2021}{\large\par}
+{\large{}Carlos Enrique Ponce Villagran}
+\par\end{center}
+
+\rule[0.3ex]{1\columnwidth}{1pt}
+
+\begin{enumerate}
+
+\item En el archivo \texttt{\textbf{Salarios.csv}} se encuentran los años de educación (EDU), el salario por hora (SAL, en dólares), los años de experiencia (EXP), la habilidad (HAB), la educación de la madre (EDM), la educación del padre (EDP) y el número de hermanos (HER) de cada uno de 2178 trabajadores, y de cada uno se incluye un número de identificación (ID). Se quiere ver cómo influyen todos esos factores dentro del salario del trabajador.
+
+\begin{enumerate}
+
+\item Utilizando \texttt{Microsoft EXCEL}:
+
+\begin{enumerate}
+
+\item Encuentra los valores de los parámetros correspondientes a un modelo de regresión múltiple e interprétalos.
+
+\begin{proof}
+
+Utilizando \texttt{ESTIMACION.LINEAL()} en \texttt{Microsoft EXCEL} obtuvimos los siguientes parámetros del modelo clásico
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline 
+$\beta_6$ & $\beta_5$ & $\beta_4$ & $\beta_3$ & $\beta_2$ & $\beta_1$ & $\beta_0$ \\ 
+\hline 
+-0.004867019 & 0.003678772 & 0.04669123 & 0.13838842 & 0.277985734 & 0.700834955
+ & -2.078530524 \\ 
+\hline 
+\end{tabular} 
+\end{center}
+
+Del coeficiente $\beta_1$ que corresponde a los años de educación podemos decir que por cada año de estudio el salario por hora de los empleados aumenta $0.7$ dolares,  $\beta_2$ que corresponde a los años de experiencia podemos decir que por cada año de experiencia el salario por hora de los empleados aumenta $0.27$ dolares, $\beta_3$ que corresponde a la habilidad podemos decir que por cada unidad de habilidad el salario por hora de los empleados aumenta $0.13$ dolares, $\beta_4$ que corresponde a los años de educación de la madre podemos decir que por cada año de educación de la madre el salario por hora de los empleados aumenta $0.046$ dolares, $\beta_5$ que corresponde a los años de educación del padre podemos decir que por cada año de educación del padre el salario por hora de los empleados aumenta $0.0036$ dolares y $\beta_6$ que corresponde al número de hermanos podemos decir que por cada hermano el salario por hora de los empleados disminuye $-0.0049$ dolares.
+
+\end{proof}
+
+\item ¿Puede decirse que la regresión anterior es significativa, a un nivel de significancia de 0.0125?
+
+\begin{proof}
+
+La función \texttt{ESTIMACION.LINEAL()} también nos da el valor del estadístico $F$ el cual es 41.47304516 ahora, el valor del umbral con un nivel de significancia 0.0125 lo obtenemos utilizando la función \texttt{INV.F(0.9875,6,2171)} con lo que obtenemos 2.715066188 y por lo tanto, la prueba es significativa.
+
+\end{proof}
+
+\item  Construye un intervalo de confianza del $94\%$ para el verdadero valor del parámetro asociado a los años de experiencia.
+
+\begin{proof}
+
+Sabemos que
+
+\[\frac{\hat{\beta}_j-\beta_j}{\sqrt{s^2\left(\mathbf{X}^T\mathbf{X}\right)_{jj}^{-1}}}\sim t(n-h)\]
+
+entonces un intervalo de confianza para $\beta$ es de la forma
+
+\[\hat{\beta}_j-t(n-h)\cdot\sqrt{s^2\left(\mathbf{X}^T\mathbf{X}\right)_{jj}^{-1}}\leq \beta\leq \hat{\beta}_j+t(n-h)\cdot\sqrt{s^2\left(\mathbf{X}^T\mathbf{X}\right)_{jj}^{-1}}\]
+
+por lo tanto usando \texttt{INV.T(0.03,2171)} y la desviación estándar que obtuvimos en \texttt{Excel} tenemos que un intervalo de confianza del $94\%$ para los años de experiencia es
+
+\[0.19976158\leq\beta\leq0.356209887\]
+
+\end{proof}
+
+\item Construye un intervalo de confianza del $98\%$ para el verdadero valor de la varianza de la perturbación asociada al modelo.
+
+\begin{proof}
+
+De \texttt{Excel} tenemos que el $SSE=43733.2751$ entonces sabemos que $s^2=\frac{\mathbf{\varepsilon}^T\mathbf{\varepsilon}}{2171}=20.14429991
+$
+
+\[ \frac{2171\cdot s^2}{\sigma^2}=\frac{SSE}{\sigma^2}\sim\chi^2(2171)\]
+
+entonces un intervalo de confianza para la varianza es de la forma
+
+\[\frac{SSE}{\chi^2(2171)
+}\leq\sigma^2\leq\frac{SSE}{\chi^2(2171)
+}\]
+
+por lo que el intervalo de confianza queda de la forma
+
+\[18.79201237\leq \sigma^2\leq 21.64311598\]
+
+\end{proof}
+
+\item Encuentra el salario por hora esperado de un trabajador con 2 hermanos, 10 años de experiencia, factor de habilidad de 1.95, 21 años de estudio, cuyo padre sólo tiene 6 años de estudios y con una madre con 15 años de educación.
+
+\begin{proof}
+
+Usando los coeficientes de la regresión tenemos
+
+\begin{align*}
+\hat{y}&=-0.004867019\cdot2 + 0.003678772\cdot6 + 0.04669123\cdot15 + 0.13838842\cdot1.95 + 0.277985734\cdot10 + 0.700834955\cdot21 &\\
+&-2.078530524\\
+&=16.42089341
+\end{align*}
+
+por lo que se espera que una persona con estas características tenga un salario de $16.421$ dolares por hora.
+
+\end{proof}
+
+\end{enumerate}
+
+\newpage
+
+\item Repetir todos los incisos anteriores usando \texttt{Stata}.
+
+\begin{enumerate}
+
+\item \begin{proof}
+
+ Usando \texttt{regress sal edu exp hab edm edp her} en \texttt{Stata} obtuvimos los siguientes parámetros del modelo clásico
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7.5cm]{Prb_1_b_1.png}
+\caption{Datos que arroja \texttt{Stata} con el comando \texttt{regress sal edu exp hab edm edp her}}
+\end{figure}
+
+Del coeficiente EDU que corresponde a los años de educación podemos decir que por cada año de estudio el salario por hora de los empleados aumenta $0.7$ dolares,  EXP que corresponde a los años de experiencia podemos decir que por cada año de experiencia el salario por hora de los empleados aumenta $0.27$ dolares, HAB que corresponde a la habilidad podemos decir que por cada unidad de habilidad el salario por hora de los empleados aumenta $0.13$ dolares, EDM que corresponde a los años de educación de la madre podemos decir que por cada año de educación de la madre el salario por hora de los empleados aumenta $0.046$ dolares, EDP que corresponde a los años de educación del padre podemos decir que por cada año de educación del padre el salario por hora de los empleados aumenta $0.0036$ dolares y HER que corresponde al número de hermanos podemos decir que por cada hermano el salario por hora de los empleados disminuye $-0.0049$ dolares.
+
+\end{proof}
+
+\item \begin{proof}
+
+Como podemos ver en la captura anterior, vemos que la \texttt{Prob>F = 0.000} esto nos indica que la regresión es en efecto significativa ya que el valor $p$ es menor a 0.0125.
+
+\end{proof}
+
+\item \begin{proof}
+
+Utilizando el comando \texttt{regress sal edu exp hab edm edp her, level(94)} obtenemos una regresión lineal con un nivel de confianza del $94\%$ lo que a sus vez nos proporciona intervalos de confianza para cada uno de los coeficientes de la regresión
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7.5cm]{Prb_1_b_3.png}
+\caption{Datos que arroja \texttt{Stata} con el comando \texttt{regress sal edu exp hab edm edp her, level(94)}}
+\end{figure}
+
+por lo tanto tenemos que un intervalo de confianza para el parámetro asociado a los años de experiencia es
+
+\[0.1997616\leq\beta_1\leq0.3562099\]
+
+\end{proof}
+
+\item
+
+\item 
+
+\end{enumerate}
+
+\newpage
+
+\item Repetir todos los incisos anteriores usando \texttt{R}.
+
+\begin{enumerate}
+
+\item \begin{proof}
+
+ Usando \texttt{rl<-lm(SAL~EDU+EXP+HAB+EDM+EDP+HER,data = salarios)} en \texttt{R} y despues \texttt{summary(rl)} obtuvimos los siguientes parámetros del modelo clásico
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7.5cm]{Prb_1_c_1.png}
+\caption{Datos que arroja \texttt{R} con el comando \texttt{summary(rl)}}
+\end{figure}
+
+Del coeficiente EDU que corresponde a los años de educación podemos decir que por cada año de estudio el salario por hora de los empleados aumenta $0.7$ dolares,  EXP que corresponde a los años de experiencia podemos decir que por cada año de experiencia el salario por hora de los empleados aumenta $0.27$ dolares, HAB que corresponde a la habilidad podemos decir que por cada unidad de habilidad el salario por hora de los empleados aumenta $0.13$ dolares, EDM que corresponde a los años de educación de la madre podemos decir que por cada año de educación de la madre el salario por hora de los empleados aumenta $0.046$ dolares, EDP que corresponde a los años de educación del padre podemos decir que por cada año de educación del padre el salario por hora de los empleados aumenta $0.0036$ dolares y HER que corresponde al número de hermanos podemos decir que por cada hermano el salario por hora de los empleados disminuye $-0.0049$ dolares.
+
+\end{proof}
+
+\item \begin{proof}
+Como podemos ver en la captura anterior, vemos que \texttt{p-value: < 2.2e-16} por lo tanto a un nivel de significancia del 0.0125 tenemos que el valor $p$ es menor, por lo tanto la prueba es significativa.
+
+\end{proof}
+
+\item \begin{proof}
+
+Utilizando el comando \texttt{confint(rl,level = 0.94)} obtenemos los intervalos de confianza del $94\%$ para cada uno de los coeficientes de la regresión
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=7.5cm]{Prb_1_c_3.png}
+\caption{Datos que arroja \texttt{R} con el comando \texttt{confint(rl,level = 0.94)}}
+\end{figure}
+
+por lo tanto tenemos que un intervalo de confianza para el parámetro asociado a los años de experiencia es
+
+\[0.19976158\leq\beta_1\leq0.35620989\]
+
+\end{proof}
+
+\item \begin{proof}
+
+Análogamente, como hicimos en \texttt{Excel} calcularemos los intervalos para la varianza. Tenemos que con el comando \texttt{sum(rl\$residuals$\wedge$2)} obtenemos $s^2$ por lo tanto si utilizamos \texttt{qchisq()} para obtener lo cuantiles por lo tanto para el intervalo inferior tenemos que usando \texttt{sum(rl\$residuals$\wedge$2)/qchisq(0.99,2171)} arroja 18.8092 y para el superior \texttt{sum(rl\$residuals$\wedge$2)/qchisq(0.01,2171)} arroja 21.66291 por lo tanto
+
+\[18.8092\leq\sigma^2\leq21.66291\]
+
+\end{proof}
+
+\item \begin{proof}
+
+Utilizando \texttt{sum(rl\$coefficients*c(1,21,10,1.95,15,6,2))} obtenemos el valor del salario por hora esperado el cual es 16.40143.
+
+\end{proof}
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
